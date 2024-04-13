@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pullebyte/CustomWidgets/MainButton.dart';
 import 'package:pullebyte/theme/colors.dart';
 import 'package:pullebyte/CustomWidgets/Textinput.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,9 +34,9 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
 
         colorScheme: customColorScheme,
+        fontFamily: GoogleFonts.poppins().fontFamily,
         // chande the primary color of appbar to transparent
 
-        
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Pullebyte'),
@@ -111,8 +113,14 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            TextFieldSample(hintText: 'Email', is_senha: false,),
-             
+            const TextFieldSample(
+              hintText: 'Email',
+              is_senha: false,
+            ),
+            const MainButton(
+              text: 'Login',
+              onPressed: null,
+            ),
             const Text(
               'You have pushed the button this many times:',
             ),
