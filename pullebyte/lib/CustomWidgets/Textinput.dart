@@ -13,22 +13,26 @@ class TextFieldSample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    // Calcula a largura desejada em porcentagem da tela (ex: 70%)
+    final width = screenWidth * 0.7;
     return Theme(
       data: ThemeData(
-        colorScheme: customColorScheme, 
+        colorScheme: customColorScheme,
       ),
       child: SizedBox(
-        width: 250,
+        width: width,
         child: TextField(
           obscureText: is_senha,
-          style: TextStyle(color: CustomColors.textColor),
+          style: TextStyle(color: CustomColors.accentColor),
           decoration: InputDecoration(
             filled: true,
-            fillColor: CustomColors.backgroundColor,
+            fillColor: CustomColors.textFieldColor,
             border: OutlineInputBorder(),
             hintText: hintText,
             labelText: hintText,
             labelStyle: TextStyle(color: CustomColors.accentColor),
+            
           ),
         ),
       ),

@@ -7,6 +7,7 @@ class CustomColors {
   static const Color accentColor = Color(0xff262626);
   static const Color backgroundColor = Color(0xff0f1821);
   static const Color textColor = Color(0xfffaf5ea);
+  static const Color textFieldColor = Color(0xfffaf5ea);
   static const Color buttonColor = Color(0xffff6c27);
 
 }
