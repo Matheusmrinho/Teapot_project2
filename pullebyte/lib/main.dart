@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pullebyte/theme/colors.dart';
+import 'package:pullebyte/CustomWidgets/Textinput.dart';
 
 void main() {
   runApp(const MyApp());
@@ -110,6 +111,8 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            TextFieldSample(hintText: 'Email', is_senha: false,),
+             
             const Text(
               'You have pushed the button this many times:',
             ),
