@@ -3,13 +3,13 @@ import 'package:pullebyte/theme/colors.dart';
 
 class TextFieldSample extends StatelessWidget {
   final String hintText;
-  final bool is_senha;
+  final bool isSenha;
 
   const TextFieldSample({
-    Key? key,
+    super.key,
     required this.hintText,
-    required this.is_senha,
-  }) : super(key: key);
+    required this.isSenha,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,15 +23,15 @@ class TextFieldSample extends StatelessWidget {
       child: SizedBox(
         width: width,
         child: TextField(
-          obscureText: is_senha,
-          style: TextStyle(color: CustomColors.accentColor),
+          obscureText: isSenha,
+          style: const TextStyle(color: CustomColors.accentColor),
           decoration: InputDecoration(
             filled: true,
             fillColor: CustomColors.textFieldColor,
-            border: OutlineInputBorder(),
+            border: const OutlineInputBorder(),
             hintText: hintText,
             labelText: hintText,
-            labelStyle: TextStyle(color: CustomColors.accentColor),
+            labelStyle: const TextStyle(color: CustomColors.accentColor),
             
           ),
         ),

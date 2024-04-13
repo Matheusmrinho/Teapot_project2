@@ -1,19 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:pullebyte/CustomWidgets/logo_header.dart';
 
 class Home extends StatelessWidget {
+  const Home({super.key});
+
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    // Calcula a posição horizontal desejada em porcentagem da tela (ex: 10%)
+    final leftPosition = screenWidth * 0.05;
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Home'),
-      ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.pushNamed(context, '/tela_cadastro');
-          },
-          child: Text('Ir para a tela de cadastro'),
-        ),
+      body: Stack(
+        children: [
+          Positioned(
+            top: 35,
+            left: leftPosition,
+            child: LogoHeader(),
+          ),
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/tela_cadastro');
+                  },
+                  child: const Text('Ir para a tela de cadastro'),
+                ),
+                const SizedBox(height: 16),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
