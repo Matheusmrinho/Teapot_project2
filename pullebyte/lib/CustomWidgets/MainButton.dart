@@ -16,7 +16,7 @@ class MainButton extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
 
     // Calcula a largura desejada em porcentagem da tela (ex: 70%)
-    final width = screenWidth * 0.7;
+    final width = screenWidth * 0.85;
 
     return Theme(
       data: ThemeData(
