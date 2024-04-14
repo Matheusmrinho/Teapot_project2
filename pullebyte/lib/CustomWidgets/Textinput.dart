@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:pullebyte/theme/colors.dart';
-
+//Bom dia
 class TextFieldSample extends StatelessWidget {
   final String hintText;
   final bool isSenha;
@@ -28,7 +29,7 @@ class TextFieldSample extends StatelessWidget {
           decoration: InputDecoration(
             filled: true,
             fillColor: CustomColors.textFieldColor,
-            border: const OutlineInputBorder(),
+            border: const UnderlineInputBorder(),
             hintText: hintText,
             labelText: hintText,
             labelStyle: const TextStyle(color: CustomColors.accentColor),
