@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-//import 'package:pullebyte/CustomWidgets/Filtro.dart';
+import 'package:pullebyte/CustomWidgets/Filtro.dart';
 import 'package:pullebyte/CustomWidgets/live_card.dart';
 import 'package:pullebyte/CustomWidgets/live_card_holder.dart';
 import 'package:pullebyte/CustomWidgets/logo_header.dart';
@@ -23,7 +23,7 @@ class Canhotos extends StatelessWidget {
             left: leftPosition,
             child: LogoHeader(),
           ),
-          //
+          FiltroTime(),
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
