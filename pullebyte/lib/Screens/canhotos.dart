@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+//import 'package:pullebyte/CustomWidgets/Filtro.dart';
+import 'package:pullebyte/CustomWidgets/live_card.dart';
+import 'package:pullebyte/CustomWidgets/live_card_holder.dart';
 import 'package:pullebyte/CustomWidgets/logo_header.dart';
 
 class Canhotos extends StatelessWidget {
@@ -10,6 +13,8 @@ class Canhotos extends StatelessWidget {
     // Calcula a posição horizontal desejada em porcentagem da tela (ex: 10%)
     final leftPosition = screenWidth * 0.05;
 
+
+
     return Scaffold(
       body: Stack(
         children: [
@@ -18,9 +23,10 @@ class Canhotos extends StatelessWidget {
             left: leftPosition,
             child: LogoHeader(),
           ),
+          //
           Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ElevatedButton(
                   onPressed: () {
@@ -28,7 +34,10 @@ class Canhotos extends StatelessWidget {
                   },
                   child: const Text('Canhotos'),
                 ),
+
+                CardHolder(),
                 const SizedBox(height: 16),
+                
               ],
             ),
           ),
