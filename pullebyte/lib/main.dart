@@ -4,6 +4,7 @@ import 'package:pullebyte/Screens/tela_login.dart';
 import 'package:pullebyte/theme/colors.dart';
 import 'Screens/tela_cadastro.dart';
 import 'Screens/home.dart';
+import 'package:pullebyte/CustomWidgets/NavigatorBar.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +22,10 @@ void main() {
     routes: {
       '/tela_login' : (context) => const TelaLogin(),
       '/tela_cadastro': (context) => const TelaCadastro(),
-      '/home': (context) => const Home(),
+      '/home': (context) => const Scaffold(
+        body: Home(),
+        bottomNavigationBar: HomeScreen(),
+      ),
     },
   ));
 }
