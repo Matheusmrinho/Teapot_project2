@@ -51,7 +51,7 @@ class LiveCard extends StatelessWidget {
                 ),
               ],
             ),
-            Column(
+            const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
