@@ -4,8 +4,9 @@ class FiltroTime extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 150.0, right: 35, left: 35),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         scrollDirection: Axis.horizontal,
         child: Row(
           children: List.generate(

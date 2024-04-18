@@ -16,7 +16,7 @@ class LiveCard extends StatelessWidget {
       ),
       child: SizedBox(
         width: 244,
-        height: 144,
+        height: 135,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
