@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pullebyte/CustomWidgets/custom_app_bar.dart';
 import 'package:pullebyte/Screens/tela_login.dart';
 import 'package:pullebyte/theme/colors.dart';
 import 'package:pullebyte/CustomWidgets/NavigatorBar.dart';
@@ -26,7 +27,7 @@ void main() {
     routes: {
       '/tela_login': (context) => const TelaLogin(),
       '/tela_cadastro': (context) => const TelaCadastro(),
-      '/home': (context) => Scaffold(
+      '/home': (context) => const Scaffold(
         body: Home(),
         bottomNavigationBar: HomeScreen(),
       ),

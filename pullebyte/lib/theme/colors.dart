@@ -6,6 +6,7 @@ class CustomColors {
   static const Color sec = Color.fromARGB(255, 255, 146, 95);
   static const Color accentColor = Color(0xff262626);
   static const Color backgroundColor = Color(0xff0f1821);
+  static const Color darkergrey = Color(0xff262626);
   static const Color textColor = Color(0xfffaf5ea);
   static const Color textFieldColor = Color(0xfffaf5ea);
   static const Color buttonColor = Color(0xffff6c27);
@@ -22,6 +23,6 @@ const customColorScheme = ColorScheme(
   onSecondary: CustomColors.textColor,
   onSurface: CustomColors.textColor,
   onBackground: CustomColors.textColor,
-  onError: Colors.white, // Se desejar uma cor de texto personalizada para erros
+  onError: Colors.white,
   brightness: Brightness.dark, // Ou ajuste para Brightness.dark conforme necessário
 );

@@ -6,13 +6,14 @@ import 'package:pullebyte/theme/colors.dart';
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String icon = 'lib/Assets/Icon_widget.svg';
 
-  CustomAppBar({Key? key}) : super(key: key);
+  const CustomAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 80,
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      margin: EdgeInsets.symmetric(vertical: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -25,7 +26,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           Container(
             decoration: BoxDecoration(
               color: customColorScheme.primary,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(50),
             ),
             child: SizedBox(
               width: 46,

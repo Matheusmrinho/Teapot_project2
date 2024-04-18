@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pullebyte/CustomWidgets/custom_app_bar.dart';
 import 'package:pullebyte/CustomWidgets/logo_header.dart';
 
 class Insights extends StatelessWidget {
@@ -13,11 +14,7 @@ class Insights extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          Positioned(
-            top: 35,
-            left: leftPosition,
-            child: LogoHeader(),
-          ),
+          CustomAppBar(),
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

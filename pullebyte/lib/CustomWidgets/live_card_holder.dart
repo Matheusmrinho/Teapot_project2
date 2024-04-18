@@ -7,7 +7,7 @@ class CardHolder extends StatelessWidget {
     return Stack(
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 60.0, right: 35, left: 35),
+          padding: const EdgeInsets.symmetric(horizontal: 35),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -18,6 +18,7 @@ class CardHolder extends StatelessWidget {
               ),
               const SizedBox(height: 8), 
               SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: List.generate(
