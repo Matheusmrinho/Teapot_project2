@@ -71,6 +71,7 @@ flutter:
       - lib/Assets/icon_bayern.png
       - lib/Assets/i.png
       - lib/Assets/Icon_globe.svg
+      - lib/Assets/Icon_widget.svg
 
   # To add assets to your application, add an assets section, like this:
   # assets:

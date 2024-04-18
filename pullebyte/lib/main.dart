@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pullebyte/Screens/tela_login.dart';
 import 'package:pullebyte/theme/colors.dart';
+import 'package:pullebyte/CustomWidgets/NavigatorBar.dart';
 import 'Screens/tela_cadastro.dart';
 import 'Screens/home.dart';
-import 'package:pullebyte/CustomWidgets/NavigatorBar.dart';
+
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  // Defina a variável icon aqui ou forneça diretamente dentro do AppBar
+  
   runApp(MaterialApp(
     title: 'Pullebyte',
     debugShowCheckedModeBanner: false,
@@ -20,9 +24,9 @@ void main() {
     ),
     initialRoute: '/tela_login',
     routes: {
-      '/tela_login' : (context) => const TelaLogin(),
+      '/tela_login': (context) => const TelaLogin(),
       '/tela_cadastro': (context) => const TelaCadastro(),
-      '/home': (context) => const Scaffold(
+      '/home': (context) => Scaffold(
         body: Home(),
         bottomNavigationBar: HomeScreen(),
       ),
