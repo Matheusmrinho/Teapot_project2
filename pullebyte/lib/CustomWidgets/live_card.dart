@@ -31,13 +31,13 @@ class LiveCard extends StatelessWidget {
               children: [
                 Image.network(
                   getEscudoImageUrl(data['ImgMand']),
-                  width: 48, // largura desejada da imagem
-                  height: 48, // altura desejada da imagem
-                  fit: BoxFit.contain, // ajuste da imagem dentro do espaço fornecido
+                  width: 48, 
+                  height: 48,
+                  fit: BoxFit.contain, 
                 ),
                 const SizedBox(height: 4),
                 Container(
-                  constraints: const BoxConstraints(maxWidth: 80), // Defina o tamanho máximo desejado
+                  constraints: const BoxConstraints(maxWidth: 80),
                   child: Text(
                     "${data['EquipeMand']}" ?? '',
                     style: TextStyle(
@@ -65,7 +65,7 @@ class LiveCard extends StatelessWidget {
               children: [
                 const SizedBox(height: 4),
                 Text(
-                  "${data['GolsMand']}:${data['GolsAdv']}" ?? '', // Corrigido aqui
+                  "${data['GolsMand']}:${data['GolsAdv']}" ?? '', 
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
@@ -97,15 +97,15 @@ class LiveCard extends StatelessWidget {
               children: [
                 Image.network(
                   getEscudoImageUrl(data['ImgAdv']),
-                  width: 48, // largura desejada da imagem
-                  height: 48, // altura desejada da imagem
-                  fit: BoxFit.contain, // ajuste da imagem dentro do espaço fornecido
+                  width: 48, 
+                  height: 48, // 
+                  fit: BoxFit.contain,
                 ),
                 const SizedBox(height: 4),
                 Container(
-                  constraints: const BoxConstraints(maxWidth: 80), // Defina o tamanho máximo desejado
+                  constraints: const BoxConstraints(maxWidth: 80), 
                   child: Text(
-                    "${data['EquipeAdv']}" ?? '', // Corrigido aqui
+                    "${data['EquipeAdv']}" ?? '', 
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
