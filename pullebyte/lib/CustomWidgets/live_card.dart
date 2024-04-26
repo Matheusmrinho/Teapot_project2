@@ -1,14 +1,19 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pullebyte/theme/colors.dart';
 
 class LiveCard extends StatelessWidget {
-  const LiveCard({super.key, this.dicTeams});
+  const LiveCard({super.key, required this.jsonData});
+  final String jsonData;
 
-  final dynamic dicTeams;
+  String getEscudoImageUrl(String id) {
+    return 'https://arquivos.admsuperplacar.com.br/img_${id}_48.png';
+  }
 
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic> data = jsonDecode(jsonData);
     return Container(
       decoration: BoxDecoration(
         color: customColorScheme.primary,
@@ -25,51 +30,63 @@ class LiveCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Image.network(
-                  'https://upload.wikimedia.org/wikipedia/pt/thumb/5/53/Arsenal_FC.svg/800px-Arsenal_FC.svg.png',
+                  getEscudoImageUrl(data['ImgMand']),
                   width: 48, // largura desejada da imagem
                   height: 48, // altura desejada da imagem
-                  fit: BoxFit
-                      .contain, // ajuste da imagem dentro do espaço fornecido
+                  fit: BoxFit.contain, // ajuste da imagem dentro do espaço fornecido
                 ),
-                SizedBox(height: 4),
-                Text(
-                  "Arsenal",
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: customColorScheme.background,
+                const SizedBox(height: 4),
+                Container(
+                  constraints: const BoxConstraints(maxWidth: 80), // Defina o tamanho máximo desejado
+                  child: Text(
+                    "${data['EquipeMand']}" ?? '',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: customColorScheme.onPrimary,
+                    ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 Text(
                   "1.2",
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
-                    color: customColorScheme.background,
+                    color: customColorScheme.onPrimary,
                   ),
                 ),
               ],
             ),
-            const Column(
+            Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                const SizedBox(height: 4),
                 Text(
-                  "3:2",
+                  "${data['GolsMand']}:${data['GolsAdv']}" ?? '', // Corrigido aqui
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
+                    color: customColorScheme.onPrimary,
                   ),
                 ),
-                SizedBox(
-                  height: 3,
-                ),
                 Text(
-                  "89'",
+                  "${data['Hora'].substring(0, 2)}'" ?? '',
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
+                    color: customColorScheme.onPrimary,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  '1.7',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: customColorScheme.onPrimary,
                   ),
                 ),
               ],
@@ -79,28 +96,31 @@ class LiveCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Image.network(
-                  'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/FC_Bayern_M%C3%BCnchen_logo_%282017%29.svg/800px-FC_Bayern_M%C3%BCnchen_logo_%282017%29.svg.png',
+                  getEscudoImageUrl(data['ImgAdv']),
                   width: 48, // largura desejada da imagem
                   height: 48, // altura desejada da imagem
-                  fit: BoxFit
-                      .contain, // ajuste da imagem dentro do espaço fornecido
+                  fit: BoxFit.contain, // ajuste da imagem dentro do espaço fornecido
                 ),
-                SizedBox(height: 4),
-                Text(
-                  "Bayern",
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: customColorScheme.background,
+                const SizedBox(height: 4),
+                Container(
+                  constraints: const BoxConstraints(maxWidth: 80), // Defina o tamanho máximo desejado
+                  child: Text(
+                    "${data['EquipeAdv']}" ?? '', // Corrigido aqui
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: customColorScheme.onPrimary,
+                    ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 Text(
                   "1.7",
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
-                    color: customColorScheme.background,
+                    color: customColorScheme.onPrimary,
                   ),
                 )
               ],

@@ -38,6 +38,9 @@ dependencies:
   cupertino_icons: ^1.0.6
   google_fonts: ^6.2.1
   google_nav_bar: ^5.0.6
+  chaleno: ^0.0.8
+  html: ^0.15.4
+  http: ^1.2.1
 
 
 dev_dependencies:
