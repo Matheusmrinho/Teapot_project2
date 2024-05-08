@@ -4,12 +4,14 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class CardHolder extends StatefulWidget {
+  const CardHolder({super.key});
   @override
   _CardHolderState createState() => _CardHolderState();
 }
 
 class _CardHolderState extends State<CardHolder> {
   var matchesData = [];
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -18,15 +20,15 @@ class _CardHolderState extends State<CardHolder> {
   }
 
   Future<void> _fetchMatchData() async {
-    const url = 'https://arquivos.admsuperplacar.com.br/home_1714090505.json';
+    const url = 'https://pullebyte.onrender.com/matches-data';
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
       Map<String, dynamic> decodedData = json.decode(response.body);
-      List<dynamic> matches = decodedData['campeonatos'];
 
       setState(() {
-        matchesData = matches;
+        matchesData = decodedData['campeonatos'];
+        isLoading = false;
       });
     }
   }
@@ -41,28 +43,38 @@ class _CardHolderState extends State<CardHolder> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 20),
-              const Text("Ao Vivo", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-              const SizedBox(height: 10),
-              SizedBox(
-                height: 140,
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: matchesData.map((match) {
-                      List<dynamic> partidas = match['partidas'];
-                      return Row(
-                        children: partidas.map((partida) {
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 10),
-                            child: LiveCard(jsonData: jsonEncode(partida)),
-                          );
-                        }).toList(),
-                      );
-                    }).toList(),
-                  ),
+              const Text(
+                "Ao Vivo",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
                 ),
               ),
+              const SizedBox(height: 10),
+              isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : SizedBox(
+                      height: 140,
+                      child: SingleChildScrollView(
+                        physics: const BouncingScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: matchesData.map((match) {
+                            List<dynamic> partidas = match['partidas'];
+                            return Row(
+                              children: partidas.map((partida) {
+                                return partida['Situacao'] != 'Encerrado' && partida['Situacao'] != 'Em breve'
+                                    ? Padding(
+                                        padding: const EdgeInsets.only(right: 10),
+                                        child: LiveCard(jsonData: jsonEncode(partida)),
+                                      )
+                                    : const SizedBox.shrink();
+                              }).toList(),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ),
             ],
           ),
         ),
