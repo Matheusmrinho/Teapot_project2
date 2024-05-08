@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:pullebyte/theme/colors.dart';
 
 class LiveCard extends StatelessWidget {
@@ -8,7 +8,7 @@ class LiveCard extends StatelessWidget {
   final String jsonData;
 
   String getEscudoImageUrl(String id) {
-    return 'https://arquivos.admsuperplacar.com.br/img_${id}_48.png';
+    return 'https://pullebyte.onrender.com/get_escudo_image/$id';
   }
 
   @override
@@ -29,17 +29,19 @@ class LiveCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image.network(
-                  getEscudoImageUrl(data['ImgMand']),
-                  width: 48, 
+                CachedNetworkImage(
+                  imageUrl: getEscudoImageUrl(data['ImgMand']),
+                  width: 48,
                   height: 48,
-                  fit: BoxFit.contain, 
+                  fit: BoxFit.contain,
+                  placeholder: (context, url) => const CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => const Icon(Icons.image_not_supported_outlined),
                 ),
                 const SizedBox(height: 4),
                 Container(
                   constraints: const BoxConstraints(maxWidth: 80),
                   child: Text(
-                    "${data['EquipeMand']}" ?? '',
+                    "${data['EquipeMand']}",
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
@@ -65,7 +67,7 @@ class LiveCard extends StatelessWidget {
               children: [
                 const SizedBox(height: 4),
                 Text(
-                  "${data['GolsMand']}:${data['GolsAdv']}" ?? '', 
+                  "${data['GolsMand']}:${data['GolsAdv']}",
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
@@ -73,7 +75,7 @@ class LiveCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "${data['Hora'].substring(0, 2)}'" ?? '',
+                  "${data['Hora'].substring(0, 2)}'",
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
@@ -95,17 +97,19 @@ class LiveCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image.network(
-                  getEscudoImageUrl(data['ImgAdv']),
-                  width: 48, 
-                  height: 48, // 
+                CachedNetworkImage(
+                  imageUrl: getEscudoImageUrl(data['ImgAdv']),
+                  width: 48,
+                  height: 48,
                   fit: BoxFit.contain,
+                  placeholder: (context, url) => const CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => const Icon(Icons.image_not_supported_outlined),
                 ),
                 const SizedBox(height: 4),
                 Container(
-                  constraints: const BoxConstraints(maxWidth: 80), 
+                  constraints: const BoxConstraints(maxWidth: 80),
                   child: Text(
-                    "${data['EquipeAdv']}" ?? '', 
+                    "${data['EquipeAdv']}",
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,

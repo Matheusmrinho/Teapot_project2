@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pullebyte/CustomWidgets/live_card.dart';
 import 'package:pullebyte/CustomWidgets/matchs_calendar.dart';
 
 class CalendarGameMatch extends StatelessWidget {
-  const CalendarGameMatch({Key? key}) : super(key: key);
+  const CalendarGameMatch({super.key});
 
   @override
   Widget build(BuildContext context) {
