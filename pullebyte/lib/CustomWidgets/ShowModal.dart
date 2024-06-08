@@ -68,7 +68,7 @@ class _MeuModalWidgetState extends State<MeuModalWidget> {
           builder: (BuildContext context, StateSetter setState) {
             return Container(
               height: 400,
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -134,13 +134,16 @@ class _MeuModalWidgetState extends State<MeuModalWidget> {
   }
 
   Widget _criarItem(BuildContext context, String nome, String escudoUrl) {
-    return ListTile(
-      title: Text(nome),
-      leading: Image.network(escudoUrl),
-      onTap: () {
-        widget.onItemSelected(nome, escudoUrl);
-        Navigator.pop(context);
-      },
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: ListTile(
+        title: Text(nome),
+        leading: Image.network(escudoUrl),
+        onTap: () {
+          widget.onItemSelected(nome, escudoUrl);
+          Navigator.pop(context);
+        },
+      ),
     );
   }
 }

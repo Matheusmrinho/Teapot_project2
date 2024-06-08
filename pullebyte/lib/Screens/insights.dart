@@ -6,14 +6,11 @@ class Insights extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    // Calcula a posição horizontal desejada em porcentagem da tela (ex: 10%)
-    final leftPosition = screenWidth * 0.05;
 
     return Scaffold(
       body: Stack(
         children: [
-          CustomAppBar(),
+          const CustomAppBar(),
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -25,7 +22,6 @@ class Insights extends StatelessWidget {
                   child: const Text('Insights'),
                 ),
                 const SizedBox(height: 16),
-                
               ],
             ),
           ),

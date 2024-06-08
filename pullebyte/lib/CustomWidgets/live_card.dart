@@ -1,14 +1,19 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:pullebyte/theme/colors.dart';
 
 class LiveCard extends StatelessWidget {
-  const LiveCard({super.key, this.dicTeams});
+  const LiveCard({super.key, required this.jsonData});
+  final String jsonData;
 
-  final dynamic dicTeams;
+  String getEscudoImageUrl(String id) {
+    return 'https://pullebyte.onrender.com/get_escudo_image/$id';
+  }
 
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic> data = jsonDecode(jsonData);
     return Container(
       decoration: BoxDecoration(
         color: customColorScheme.primary,
@@ -24,52 +29,34 @@ class LiveCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image.network(
-                  'https://upload.wikimedia.org/wikipedia/pt/thumb/5/53/Arsenal_FC.svg/800px-Arsenal_FC.svg.png',
-                  width: 48, // largura desejada da imagem
-                  height: 48, // altura desejada da imagem
-                  fit: BoxFit
-                      .contain, // ajuste da imagem dentro do espaço fornecido
+                CachedNetworkImage(
+                  imageUrl: getEscudoImageUrl(data['ImgMand']),
+                  width: 48,
+                  height: 48,
+                  fit: BoxFit.contain,
+                  placeholder: (context, url) => const CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => const Icon(Icons.image_not_supported_outlined),
                 ),
-                SizedBox(height: 4),
-                Text(
-                  "Arsenal",
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: customColorScheme.background,
+                const SizedBox(height: 4),
+                Container(
+                  constraints: const BoxConstraints(maxWidth: 80),
+                  child: Text(
+                    "${data['EquipeMand']}",
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: customColorScheme.onPrimary,
+                    ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 Text(
                   "1.2",
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
-                    color: customColorScheme.background,
-                  ),
-                ),
-              ],
-            ),
-            const Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  "3:2",
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(
-                  height: 3,
-                ),
-                Text(
-                  "89'",
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
+                    color: customColorScheme.onPrimary,
                   ),
                 ),
               ],
@@ -78,29 +65,66 @@ class LiveCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image.network(
-                  'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/FC_Bayern_M%C3%BCnchen_logo_%282017%29.svg/800px-FC_Bayern_M%C3%BCnchen_logo_%282017%29.svg.png',
-                  width: 48, // largura desejada da imagem
-                  height: 48, // altura desejada da imagem
-                  fit: BoxFit
-                      .contain, // ajuste da imagem dentro do espaço fornecido
-                ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Text(
-                  "Bayern",
+                  "${data['GolsMand']}:${data['GolsAdv']}",
+                  style: TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    color: customColorScheme.onPrimary,
+                  ),
+                ),
+                Text(
+                  "${data['Hora'].substring(0, 2)}'",
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
-                    color: customColorScheme.background,
+                    color: customColorScheme.onPrimary,
                   ),
                 ),
-                SizedBox(height: 5),
+                const SizedBox(height: 8),
+                Text(
+                  '1.7',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: customColorScheme.onPrimary,
+                  ),
+                ),
+              ],
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                CachedNetworkImage(
+                  imageUrl: getEscudoImageUrl(data['ImgAdv']),
+                  width: 48,
+                  height: 48,
+                  fit: BoxFit.contain,
+                  placeholder: (context, url) => const CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => const Icon(Icons.image_not_supported_outlined),
+                ),
+                const SizedBox(height: 4),
+                Container(
+                  constraints: const BoxConstraints(maxWidth: 80),
+                  child: Text(
+                    "${data['EquipeAdv']}",
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: customColorScheme.onPrimary,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                const SizedBox(height: 5),
                 Text(
                   "1.7",
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
-                    color: customColorScheme.background,
+                    color: customColorScheme.onPrimary,
                   ),
                 )
               ],
