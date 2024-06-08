@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pullebyte/CustomWidgets/custom_app_bar.dart';
-import 'package:pullebyte/CustomWidgets/logo_header.dart';
 
 class Insights extends StatelessWidget {
   const Insights({super.key});

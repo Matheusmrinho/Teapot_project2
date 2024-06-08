@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pullebyte/CustomWidgets/custom_app_bar.dart';
 import 'package:pullebyte/Screens/tela_login.dart';
 import 'package:pullebyte/theme/colors.dart';
 import 'package:pullebyte/CustomWidgets/NavigatorBar.dart';

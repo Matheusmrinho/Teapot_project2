@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pullebyte/CustomWidgets/Filtro.dart';
 import 'package:pullebyte/CustomWidgets/custom_app_bar.dart';
-import 'package:pullebyte/CustomWidgets/live_card_holder.dart';
 import 'package:pullebyte/CustomWidgets/match_card_holder.dart';
 
 class Home extends StatelessWidget {
@@ -14,10 +13,10 @@ class Home extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              CustomAppBar(), 
+              CustomAppBar(),
               FiltroTime(),
-              CardHolder(),
-            CalendarGameMatch()],
+              CalendarGameMatch(),
+            ],
           ),
         ),
       ),

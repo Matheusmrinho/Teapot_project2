@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pullebyte/CustomWidgets/Filtro.dart';
 import 'package:pullebyte/CustomWidgets/custom_app_bar.dart';
-import 'package:pullebyte/CustomWidgets/live_card_holder.dart';
-import 'package:pullebyte/CustomWidgets/logo_header.dart';
 
 class Canhotos extends StatelessWidget {
   const Canhotos({super.key});
