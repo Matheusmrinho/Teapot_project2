@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:pullebyte/CustomWidgets/custom_app_bar.dart';
 
-class Insights extends StatelessWidget {
+class Insights extends StatefulWidget {
   const Insights({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  _InsightsState createState() => _InsightsState();
+}
 
+class _InsightsState extends State<Insights> with AutomaticKeepAliveClientMixin {
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: Stack(
         children: [
@@ -29,4 +34,7 @@ class Insights extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

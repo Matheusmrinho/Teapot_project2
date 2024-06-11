@@ -1,37 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:pullebyte/CustomWidgets/live_card.dart';
 import 'dart:convert';
-import 'package:http/http.dart' as http;
 
-class CardHolder extends StatefulWidget {
-  const CardHolder({super.key});
-  @override
-  _CardHolderState createState() => _CardHolderState();
-}
 
-class _CardHolderState extends State<CardHolder> {
-  var matchesData = [];
-  bool isLoading = true;
+class CardHolder extends StatelessWidget {
+  final List<dynamic> matchesData;
+  final bool isLoading;
 
-  @override
-  void initState() {
-    super.initState();
-    _fetchMatchData();
-  }
-
-  Future<void> _fetchMatchData() async {
-    const url = 'https://pullebyte.onrender.com/matches-data';
-    final response = await http.get(Uri.parse(url));
-
-    if (response.statusCode == 200) {
-      Map<String, dynamic> decodedData = json.decode(response.body);
-
-      setState(() {
-        matchesData = decodedData['campeonatos'];
-        isLoading = false;
-      });
-    }
-  }
+  const CardHolder({super.key, required this.matchesData, required this.isLoading});
 
   @override
   Widget build(BuildContext context) {

@@ -12,7 +12,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 80,
-      margin: EdgeInsets.symmetric(vertical: 20),
+      margin: const EdgeInsets.only(top: 50, bottom: 20),
       padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -21,7 +21,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             onTap: () {
               Navigator.pushNamed(context, '/home');
             },
-            child: LogoHeader(),
+            child: const LogoHeader(),
           ),
           Container(
             decoration: BoxDecoration(
