@@ -17,7 +17,8 @@ class TimeItem extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       onLongPress: onLongPress,
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 100),
         width: 164,
         height: 63,
         margin: const EdgeInsets.symmetric(horizontal: 8),
@@ -37,13 +38,17 @@ class TimeItem extends StatelessWidget {
               width: 40,
               height: 40,
             ),
-            Text(
-              time['nome'] ?? '',
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 16,
+            SizedBox(
+                width: 85,
+                child: Text(
+                  time['nome'] ?? '',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-            ),
           ],
         ),
       ),

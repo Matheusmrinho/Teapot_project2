@@ -1,4 +1,12 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:pullebyte/theme/colors.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+
+
+
+
 
 class MeuModalWidget extends StatefulWidget {
   final void Function(String, String) onItemSelected; // Callback
@@ -11,40 +19,27 @@ class MeuModalWidget extends StatefulWidget {
 
 class _MeuModalWidgetState extends State<MeuModalWidget> {
   final TextEditingController _searchController = TextEditingController();
-  List<Map<String, dynamic>> alltimes = [
-    {
-      'nome': 'Flamengo',
-      'escudoUrl':
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Flamengo_braz_logo.svg/1200px-Flamengo_braz_logo.svg.png'
-    },
-    {
-      'nome': 'Corinthians',
-      'escudoUrl':
-          'https://upload.wikimedia.org/wikipedia/pt/b/b4/Corinthians_simbolo.png'
-    },
-    {
-      'nome': 'Santa Cruz',
-      'escudoUrl':
-          'https://upload.wikimedia.org/wikipedia/commons/6/6b/Santa_Cruz_Futebol_Clube_%281915-99%29.png'
-    },
-    {
-      'nome': 'Palmeiras',
-      'escudoUrl':
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Palmeiras_logo.svg/2048px-Palmeiras_logo.svg.png'
-    },
-    {
-      'nome': 'São Paulo',
-      'escudoUrl':
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg/2054px-Brasao_do_Sao_Paulo_Futebol_Clube.svg.png'
-    }
-  ];
-
-  List<Map<String, dynamic>> _foundUsers = [];
+  List<Map<String, dynamic>> allTimes = [];
+  List<Map<String, dynamic>> _foundTimes = [];
 
   @override
   void initState() {
-    _foundUsers = List.from(alltimes);
     super.initState();
+    _fetchTimes();
+  }
+
+  Future<void> _fetchTimes() async {
+    final response = await http.get(Uri.parse('https://pullebyte.onrender.com/times'));
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(utf8.decode(response.bodyBytes));
+      setState(() {
+        allTimes = List<Map<String, dynamic>>.from(data);
+        _foundTimes = List.from(allTimes);
+      });
+    } else {
+      print('Erro ao carregar os dados');
+    }
   }
 
   @override
@@ -76,7 +71,7 @@ class _MeuModalWidgetState extends State<MeuModalWidget> {
                     controller: _searchController,
                     onChanged: (query) {
                       setState(() {
-                        _foundUsers = _filterUsers(query);
+                        _foundTimes = _filterTimes(query);
                       });
                     },
                     decoration: const InputDecoration(
@@ -84,8 +79,8 @@ class _MeuModalWidgetState extends State<MeuModalWidget> {
                       prefixIcon: Icon(Icons.search),
                     ),
                   ),
-                  SizedBox(height: 10),
-                  if (_foundUsers.isEmpty)
+                  const SizedBox(height: 10),
+                  if (_foundTimes.isEmpty)
                     const Padding(
                       padding: EdgeInsets.all(10.0),
                       child: Text(
@@ -97,15 +92,14 @@ class _MeuModalWidgetState extends State<MeuModalWidget> {
                       ),
                     ),
                   Expanded(
-                    child: _foundUsers.isEmpty
-                        ? SizedBox() // Se a lista estiver vazia, não renderizar o ListView
+                    child: _foundTimes.isEmpty
+                        ? SizedBox()
                         : ListView.builder(
                             key: UniqueKey(),
-                            itemCount: _foundUsers.length,
+                            itemCount: _foundTimes.length,
                             itemBuilder: (context, index) {
-                              final user = _foundUsers[index];
-                              return _criarItem(
-                                  context, user['nome'], user['escudoUrl']);
+                              final time = _foundTimes[index];
+                              return _criarItem(context, time['nomeDoTime'], time['idImagem']);
                             },
                           ),
                   ),
@@ -118,31 +112,67 @@ class _MeuModalWidgetState extends State<MeuModalWidget> {
     );
   }
 
-  List<Map<String, dynamic>> _filterUsers(String query) {
-    List<Map<String, dynamic>> filteredUsers = [];
+  List<Map<String, dynamic>> _filterTimes(String query) {
+    List<Map<String, dynamic>> filteredTimes = [];
     if (query.isNotEmpty) {
-      for (var user in alltimes) {
-        final nome = user['nome'].toString().toLowerCase();
+      for (var time in allTimes) {
+        final nome = time['nomeDoTime'].toString().toLowerCase();
         if (nome.startsWith(query.toLowerCase())) {
-          filteredUsers.add(user);
+          filteredTimes.add(time);
         }
       }
     } else {
-      filteredUsers = List.from(alltimes);
+      filteredTimes = List.from(allTimes);
     }
-    return filteredUsers;
+    return filteredTimes;
   }
 
-  Widget _criarItem(BuildContext context, String nome, String escudoUrl) {
+  String getEscudoImageUrl(String id) {
+    return 'https://pullebyte.onrender.com/get_escudo_image/$id';
+  }
+
+  Widget _criarItem(BuildContext context, dynamic nomeDoTime, dynamic idEscudo) {
+    String nome = nomeDoTime ?? '';
+    String id = idEscudo ?? '';
+    String escudoUrl = getEscudoImageUrl(id);
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: ListTile(
         title: Text(nome),
-        leading: Image.network(escudoUrl),
+        leading: _buildEscudoImage(escudoUrl),
         onTap: () {
           widget.onItemSelected(nome, escudoUrl);
           Navigator.pop(context);
         },
+      ),
+    );
+  }
+
+  Widget _buildEscudoImage(String escudoUrl) {
+    return Container(
+      width: 50,
+      height: 50,
+      decoration: BoxDecoration(
+        color: CustomColors.accentColor,
+        borderRadius: BorderRadius.circular(70.0),
+      ),
+      child: ClipRRect(
+        child: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: CachedNetworkImage(
+            imageUrl: escudoUrl,
+            width: 48,
+            height: 48,
+            fit: BoxFit.contain,
+            placeholder: (context, url) => const SizedBox(
+              width: 10,
+              height: 10,
+              child: CircularProgressIndicator(strokeWidth: 2.0),
+            ),
+            errorWidget: (context, url, error) => const Icon(Icons.image_not_supported_outlined),
+          ),
+        ),
       ),
     );
   }
