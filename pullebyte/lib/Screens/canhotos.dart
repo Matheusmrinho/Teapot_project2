@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:pullebyte/CustomWidgets/custom_app_bar.dart';
 
-class Canhotos extends StatelessWidget {
+class Canhotos extends StatefulWidget {
   const Canhotos({super.key});
 
   @override
+  _CanhotosState createState() => _CanhotosState();
+}
+
+class _CanhotosState extends State<Canhotos> with AutomaticKeepAliveClientMixin {
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: Stack(
         children: [
@@ -28,4 +34,7 @@ class Canhotos extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

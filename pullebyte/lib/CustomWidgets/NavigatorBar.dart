@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import "package:flutter_feather_icons/flutter_feather_icons.dart";
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:pullebyte/Screens/canhotos.dart';
 import 'package:pullebyte/Screens/insights.dart';
 import 'package:pullebyte/Screens/home.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -42,23 +43,23 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15),
           child: GNav(
-            backgroundColor: Color(0xff0f1821),
+            backgroundColor: const Color(0xff0f1821),
             color: Colors.white,
             activeColor: Colors.white,
-            tabBackgroundColor: Color(0xffff6c27),
+            tabBackgroundColor: const Color(0xffff6c27),
             gap: 10,
             padding: const EdgeInsets.all(14),
             tabs: const [
               GButton(
-                icon: Icons.public,
+                icon: FeatherIcons.globe,
                 text: 'Jogos',
               ),
               GButton(
-                icon: Icons.menu,
+                icon: FeatherIcons.server,
                 text: 'Canhotos',
               ),
               GButton(
-                icon: Icons.bar_chart,
+                icon: FeatherIcons.barChart2,
                 text: 'Insights',
               ),
             ],
