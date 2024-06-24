@@ -23,6 +23,11 @@ Se você deseja contribuir com o projeto, siga estes passos:
 4. Faça push para a branch (`git push origin minha-contribuicao`).
 5. Abra um pull request explicando suas alterações.
 
+## ⚙ **Back-end**
+
+O código do back-end do nosso aplicativo está disponível em um outro repositório Github. Você pode acessá-lo através do seguinte link:
+[Repositório Back-end Pullebyte](https://github.com/luizefz/pullebyte-back).
+
 ## **📝 Licença**
 
 Este projeto está licenciado sob a Licença MIT. 
