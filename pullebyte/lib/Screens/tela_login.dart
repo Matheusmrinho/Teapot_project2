@@ -6,7 +6,7 @@ import 'package:pullebyte/CustomWidgets/Textinput.dart';
 import 'package:pullebyte/CustomWidgets/logo_header.dart';
 import 'package:pullebyte/CustomWidgets/main_text.dart';
 import 'package:pullebyte/theme/colors.dart';
-import 'package:pullebyte/controller_database.dart';
+import 'package:pullebyte/controller_Database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginScreen extends StatelessWidget {
