@@ -47,38 +47,50 @@ class FiltroTimeLogic {
   }
   
   Future<void> _salvarFiltrosNoFirestore() async {
-    try {
-      User? user = FirebaseAuth.instance.currentUser;
-      if (user != null) {
-        if (timesSelecionados.isEmpty) {
-          return;
-        }
-        await FirebaseFirestore.instance
+  try {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      if (timesSelecionados.isEmpty) {
+        return await FirebaseFirestore.instance
             .collection('users')
             .doc(user.uid)
-            .set({'timesSelecionados': timesSelecionados});
+            .update({'timesSelecionados': []});
       }
-    } catch (e) {
-      print('Erro ao salvar filtros no Firestore: $e');
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .update({'timesSelecionados': timesSelecionados});
     }
+  } catch (e) {
+    print('Erro ao salvar filtros no Firestore: $e');
   }
-  
-  Future<void> carregarFiltrosDoFirestore() async {
-    try {
-      User? user = FirebaseAuth.instance.currentUser;
-      if (user != null) {
-        DocumentSnapshot doc = await FirebaseFirestore.instance
-            .collection('users')
-            .doc(user.uid)
-            .get();
-        if (doc.exists) {
-          List<dynamic> data = doc['timesSelecionados'];
+}
+
+Future<void> carregarFiltrosDoFirestore() async {
+  try {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      DocumentSnapshot doc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
+      if (doc.exists) {
+        final data = doc.data() as Map<String, dynamic>?;
+        if (data != null && data.containsKey('timesSelecionados')) {
+          List<dynamic> times = data['timesSelecionados'];
           timesSelecionados.clear();
-          timesSelecionados.addAll(data.map((item) => Map<String, dynamic>.from(item)));
+          timesSelecionados.addAll(times.map((item) => Map<String, dynamic>.from(item)));
+        } else {
+          // Se o campo não existir, inicialize-o como uma lista vazia
+          await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
+            'timesSelecionados': [],
+          });
+          timesSelecionados.clear();
         }
       }
-    } catch (e) {
-      print('Erro ao carregar filtros do Firestore: $e');
     }
+  } catch (e) {
+    print('Erro ao carregar filtros do Firestore: $e');
   }
+}
 }

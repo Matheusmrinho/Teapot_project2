@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pullebyte/CustomWidgets/MainButton.dart';
 import 'package:pullebyte/CustomWidgets/Textinput.dart';
 import 'package:pullebyte/CustomWidgets/logo_header.dart';
 import 'package:pullebyte/CustomWidgets/main_text.dart';
 import 'package:pullebyte/theme/colors.dart';
-import 'package:pullebyte/controller_database.dart';
+import 'package:pullebyte/controller_Database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -22,7 +21,7 @@ class LoginScreen extends StatelessWidget {
     _passwordController.text,
   );
   if (user != null) {
-    await _databaseController.addUser(user.uid, user.email!);
+    await _databaseController.addUser(user.uid, user.email!,user.displayName!);
     Navigator.of(context).pop(); // Fechar o popup
     Navigator.pushNamed(context, '/home'); // Navegar para a tela inicial
   } else {

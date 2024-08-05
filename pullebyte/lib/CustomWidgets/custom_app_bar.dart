@@ -35,17 +35,16 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               borderRadius: BorderRadius.circular(50),
             ),
             child: SizedBox(
-              width: 46,
-              height: 46,
+              width: 50,
+              height: 50,
               child: IconButton(
                 icon: SvgPicture.asset(
                   'lib/Assets/Icon_widget.svg',
-                  color: customColorScheme.onPrimary,
                   fit: BoxFit.contain,
                   semanticsLabel: 'Icon',
                 ),
                 onPressed: () {
-                  _logout(context);
+                  Navigator.pushNamed(context, '/tela_perfil');
                   // Adicione a ação que você deseja realizar ao clicar no ícone aqui
                 },
               ),

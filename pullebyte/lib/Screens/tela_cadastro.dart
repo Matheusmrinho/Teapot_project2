@@ -22,7 +22,7 @@ class CadastroScreen extends StatelessWidget {
       _usernameController.text,
     );
     if (user != null) {
-      Navigator.pushNamed(context, '/home'); // Navegar para a tela inicial
+      Navigator.pushNamed(context, '/tela_login'); // Navegar para a tela inicial
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
