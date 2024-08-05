@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pullebyte/CustomWidgets/MainButton.dart';
 import 'package:pullebyte/CustomWidgets/Textinput.dart';
@@ -22,7 +21,7 @@ class LoginScreen extends StatelessWidget {
     _passwordController.text,
   );
   if (user != null) {
-    await _databaseController.addUser(user.uid, user.email!);
+    await _databaseController.addUser(user.uid, user.email!,user.displayName!);
     Navigator.of(context).pop(); // Fechar o popup
     Navigator.pushNamed(context, '/home'); // Navegar para a tela inicial
   } else {

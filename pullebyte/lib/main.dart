@@ -7,6 +7,7 @@ import 'Screens/tela_cadastro.dart';
 import 'Screens/home.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'Screens/tela_perfil.dart';
 
 
 
@@ -34,6 +35,7 @@ void main() async {
         body:  Home(),
         bottomNavigationBar: HomeScreen(),
       ),
+      '/tela_perfil': (context) =>  ProfileScreen(),
     },
   ));
 }
