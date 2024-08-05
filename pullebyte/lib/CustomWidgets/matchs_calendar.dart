@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:pullebyte/theme/colors.dart';
+import 'dart:convert';
 
 class MatchCalendarCard extends StatelessWidget {
-  const MatchCalendarCard({super.key});
+  const MatchCalendarCard({super.key, required this.jsonData});
+  final String jsonData;
+
+  String getEscudoImageUrl(String id) {
+    return 'https://pullebyte.onrender.com/get_escudo_image/$id';
+  }
 
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic> data = jsonDecode(jsonData);
     final screenWidth = MediaQuery.of(context).size.width;
 
     final width = screenWidth * 0.85;
@@ -21,11 +29,26 @@ class MatchCalendarCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text("Ago 30, 2024", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                Text("Rodada 3 de 16", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                Text(
+                  "${data['Dt']}", // "12/12/2021",ou seja, data da partida
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(
+                  width: 4,
+                ),
+                Text(
+                  "${data['Hora']}", // "12:00",ou seja, horário da partida
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ],
             ),
             Row(
@@ -34,44 +57,81 @@ class MatchCalendarCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle, // Metade da altura/largura do container para garantir um círculo perfeito
-                        border: Border.all(color: Colors.grey, width: 5), // Adiciona uma borda cinza de 2 pixels de largura
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(25), // Metade da altura/largura do container para garantir um círculo perfeito
-                        child: Image.asset(
-                          'lib/Assets/Arsenal_FC.svg.png',
-                          fit: BoxFit.contain, // Ajusta a imagem para cobrir o espaço do círculo
-                          width: 40, // Defina a largura da imagem para 50 (opcional)
-                          height: 45, // Defina a altura da imagem para 50 (opcional)
+                    Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Container(
+                          width: 48,
+                          height: 48,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.grey,
+                          ),
                         ),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(25),
+                          child: CachedNetworkImage(
+                            imageUrl: getEscudoImageUrl(data['ImgMand']),
+                            width: 40,
+                            height: 40,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(width: 10),
+                    Container(
+                      constraints: const BoxConstraints(maxWidth: 80),
+                      child: Text(
+                        "${data['EquipeMand']}",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: customColorScheme.onPrimary,
+                        ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    SizedBox(width: 10),
-                    Text("Arsenal", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                    const SizedBox(width: 10),
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text("Bayern", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                    SizedBox(width: 10),
                     Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle, // Metade da altura/largura do container para garantir um círculo perfeito
-                        border: Border.all(color: Colors.grey, width: 5), // Adiciona uma borda cinza de 2 pixels de largura
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(25), // Metade da altura/largura do container para garantir um círculo perfeito
-                        child: Image.asset(
-                          'lib/Assets/FC_Bayern_München_logo_(2017).svg.png',
-                          fit: BoxFit.cover, // Ajusta a imagem para cobrir o espaço do círculo
-                          width: 40, // Defina a largura da imagem para 50 (opcional)
-                          height: 40, // Defina a altura da imagem para 50 (opcional)
+                      constraints: const BoxConstraints(maxWidth: 80),
+                      child: Text(
+                        "${data["EquipeAdv"]}",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: customColorScheme.onPrimary,
                         ),
+                        overflow: TextOverflow.ellipsis,
                       ),
+                    ),
+                    const SizedBox(width: 10),
+                    Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Container(
+                          width: 48,
+                          height: 48,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(25),
+                          child: CachedNetworkImage(
+                            imageUrl: getEscudoImageUrl(data['ImgAdv']),
+                            width: 40,
+                            height: 40,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -85,14 +145,32 @@ class MatchCalendarCard extends StatelessWidget {
                   height: 40,
                   decoration: BoxDecoration(
                     color: Colors.grey[900],
-                    borderRadius: BorderRadius.circular(8), // Arredonda os cantos do container
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("1 ", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
-                      Text(" | ", style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal, color: Colors.grey[600])),
-                      Text("1.72", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
+                      Text(
+                        "1 ",
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
+                      Text(
+                        " | ",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.grey[600]),
+                      ),
+                      Text(
+                        "0.0",
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
                     ],
                   ),
                 ),
@@ -101,14 +179,32 @@ class MatchCalendarCard extends StatelessWidget {
                   height: 40,
                   decoration: BoxDecoration(
                     color: Colors.grey[900],
-                    borderRadius: BorderRadius.circular(8), // Arredonda os cantos do container
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("x ", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
-                      Text(" | ", style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal, color: Colors.grey[600])),
-                      Text("1.72", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
+                      Text(
+                        "x ",
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
+                      Text(
+                        " | ",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.grey[600]),
+                      ),
+                      Text(
+                        "0.0",
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
                     ],
                   ),
                 ),
@@ -117,14 +213,32 @@ class MatchCalendarCard extends StatelessWidget {
                   height: 40,
                   decoration: BoxDecoration(
                     color: Colors.grey[900],
-                    borderRadius: BorderRadius.circular(8), // Arredonda os cantos do container
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("2 ", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
-                      Text(" | ", style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal, color: Colors.grey[600])),
-                      Text("1.72", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
+                      Text(
+                        "2 ",
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
+                      Text(
+                        " | ",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.grey[600]),
+                      ),
+                      Text(
+                        "0.0",
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
                     ],
                   ),
                 ),
@@ -132,11 +246,6 @@ class MatchCalendarCard extends StatelessWidget {
             ),
           ],
         ),
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-        //   children: [
-        //     Column(
-        // ),
       ),
     );
   }
