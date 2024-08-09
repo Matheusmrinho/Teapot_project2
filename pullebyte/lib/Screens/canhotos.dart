@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pullebyte/CustomWidgets/canhotos_holder.dart';
 import 'package:pullebyte/CustomWidgets/custom_app_bar.dart';
+import 'package:pullebyte/CustomWidgets/canhotos_searchbar.dart';
 
 class Canhotos extends StatefulWidget {
   const Canhotos({super.key});
@@ -9,7 +10,8 @@ class Canhotos extends StatefulWidget {
   _CanhotosState createState() => _CanhotosState();
 }
 
-class _CanhotosState extends State<Canhotos> with AutomaticKeepAliveClientMixin {
+class _CanhotosState extends State<Canhotos>
+    with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -18,6 +20,7 @@ class _CanhotosState extends State<Canhotos> with AutomaticKeepAliveClientMixin 
         child: Column(
           children: [
             CustomAppBar(),
+            CanhotosSearchBar(),
             CanhotosHolder(),
             ElevatedButton(
               onPressed: () {
