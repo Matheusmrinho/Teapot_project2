@@ -5,8 +5,7 @@ import 'package:pullebyte/CustomWidgets/Textinput.dart';
 import 'package:pullebyte/CustomWidgets/logo_header.dart';
 import 'package:pullebyte/CustomWidgets/main_text.dart';
 import 'package:pullebyte/theme/colors.dart';
-import 'package:pullebyte/controller_Database.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:pullebyte/controller_database.dart';
 
 class LoginScreen extends StatelessWidget {
   final DatabaseController _databaseController = DatabaseController();
@@ -16,20 +15,27 @@ class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
   void _login(BuildContext context) async {
-  User? user = await _databaseController.signInWithEmailAndPassword(
-    _emailController.text,
-    _passwordController.text,
-  );
-  if (user != null) {
-    await _databaseController.addUser(user.uid, user.email!,user.displayName!);
-    Navigator.of(context).pop(); // Fechar o popup
-    Navigator.pushNamed(context, '/home'); // Navegar para a tela inicial
-  } else {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Erro ao fazer login')),
-    );
+    await _databaseController
+        .signInWithEmailAndPassword(
+      _emailController.text,
+      _passwordController.text,
+    )
+        .then((user) async {
+      Navigator.popAndPushNamed(context, '/home');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Login realizado com sucesso.'),
+        ),
+      );
+      await _databaseController.addUserInfo();
+    }).catchError((e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Email ou senha inválidos.'),
+        ),
+      );
+    });
   }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +64,8 @@ class LoginScreen extends StatelessWidget {
           Column(
             children: <Widget>[
               Expanded(
-                child: SvgPicture.asset(assetName,
+                child: SvgPicture.asset(
+                  assetName,
                   fit: BoxFit.contain,
                   semanticsLabel: 'Soccer Image',
                 ),
@@ -70,22 +77,20 @@ class LoginScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       const SizedBox(height: 16),
-                       TextFieldSample(
-                        controller:_emailController, 
-                        hintText: "Email", 
-                        isSenha: false,),
+                      TextFieldSample(
+                        controller: _emailController,
+                        hintText: "Email",
+                        isSenha: false,
+                      ),
                       const SizedBox(height: 16),
-                       TextFieldSample(
-                      controller: _passwordController, 
-                      hintText: "Senha", 
-                      isSenha: true,),
+                      TextFieldSample(
+                        controller: _passwordController,
+                        hintText: "Senha",
+                        isSenha: true,
+                      ),
                       const SizedBox(height: 24),
-                      MainButton(
-                        text: "Login",
-                        onPressed:() => _login(context)),
-              
+                      MainButton(text: "Login", onPressed: () => _login(context)),
                       const SizedBox(height: 20),
-
                       const LinkAndText(
                         text: "Ainda não possui login? ",
                         linkText: "Cadastre-se",

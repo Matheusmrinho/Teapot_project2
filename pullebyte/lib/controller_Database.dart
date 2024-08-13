@@ -1,119 +1,117 @@
+import 'package:flutter/material.dart';
+import 'dart:typed_data';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'dart:io';
 
 class DatabaseController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
-  final String defaultProfilePictureUrl = 'https://example.com/default-profile-picture.png';
+  final String defaultProfilePictureUrl = 'https://i.yourimageshare.com/uuzM2gyY18.png';
 
+  getUserProfile() {
+    var user = _auth.currentUser;
+    print(user?.photoURL);
+    return user;
+  }
 
-  Future<Map<String, dynamic>> getUserProfile(String userId) async {
+  Future<void> updateProfilePicture(Uint8List filePath) async {
+    var user = _auth.currentUser;
+
+    if (user == null) {
+      throw Exception('Usuário não autenticado.');
+    }
+
+    // Upload da imagem para o Firebase Storage
+    Reference ref = _storage.ref().child('users/${user.uid}/photoUrl.jpg');
+
+    // Obter a URL da imagem
+    await ref.putData(filePath).catchError((e) {
+      throw Exception('Erro ao enviar imagem para o Firebase Storage: $e');
+    });
+    String url;
+    await ref.getDownloadURL().then((value) {
+      url = value;
+      user.updatePhotoURL(url).catchError((e) {
+        throw Exception('Erro ao atualizar imagem de perfil: $e');
+      });
+    }).catchError((e) {
+      throw Exception('Erro ao obter URL da imagem: $e');
+    });
+  }
+
+  Future<void> updateUserName(String name) async {
+    var user = _auth.currentUser;
     try {
-      DocumentSnapshot userDoc = await _firestore.collection('users').doc(userId).get();
-      if (userDoc.exists) {
-        return userDoc.data() as Map<String, dynamic>;
-      } else {
-        throw Exception('Usuário não encontrado');
+      if (user?.displayName != name) {
+        await user?.updateDisplayName(name);
+        await _firestore.collection('users').doc(user?.uid).update({
+          'userInfo.name': user?.displayName,
+        });
+        const SnackBar(
+          content: Text('Informações atualizadas com sucesso'),
+        );
       }
     } catch (e) {
-      throw Exception('Erro ao buscar perfil do usuário: $e');
+      throw Exception('Erro ao atualizar nome do usuário: $e');
     }
   }
 
-  Future<String> uploadProfilePicture(String filePath, String userId) async {
-    File file = File(filePath);
+  Future<void> updateUserEmail(String email) async {
+    var user = _auth.currentUser;
+
     try {
-      // Upload da imagem para o Firebase Storage
-      TaskSnapshot snapshot = await _storage
-          .ref('profilePictures/$userId')
-          .putFile(file);
-      // Obter a URL da imagem
-      String downloadUrl = await snapshot.ref.getDownloadURL();
-      
-      // Salvar a URL da imagem no Firestore
-      await _firestore
-          .collection('users')
-          .doc(userId)
-          .update({'profilePictureUrl': downloadUrl});
-      
-      return downloadUrl;
+      if (user?.email != email) {
+        await user?.verifyBeforeUpdateEmail(email);
+        await _firestore.collection('users').doc(user?.uid).update({
+          'userInfo.email': user?.email,
+        });
+        const SnackBar(
+          content: Text('Verifique seu e-mail para confirmar a alteração'),
+        );
+      }
     } catch (e) {
-      throw Exception('Erro ao fazer upload da imagem: $e');
+      throw Exception('Erro ao atualizar email do usuário: $e');
     }
   }
 
-  Future<void> updateProfilePicture(String userId, String profilePictureUrl) async {
-    try {
-      await _firestore.collection('users').doc(userId).update({
-        'userInfo.profilePicture': profilePictureUrl,
-      });
-    } catch (e) {
-      throw Exception('Erro ao atualizar foto de perfil: $e');
-    }
-  }
-
-  Future<void> updateUserProfile(String userId, String name, String email) async {
-    try {
-      await _firestore.collection('users').doc(userId).update({
-        'userInfo.name': name,
-        'userInfo.email': email,
-      });
-    } catch (e) {
-      throw Exception('Erro ao atualizar perfil do usuário: $e');
-    }
-  }
   Future<void> signOut() async {
     await _auth.signOut();
   }
-  Future<void> addUser(String userId, String email, String username) async {
+
+  Future<void> addUserInfo() async {
     try {
-      DocumentSnapshot snapshot = await _firestore.collection('users').doc(userId).get();
+      var user = _auth.currentUser;
+      DocumentSnapshot snapshot = await _firestore.collection('users').doc(user?.uid).get();
       if (!snapshot.exists) {
-        await _firestore.collection('users').doc(userId).set({
+        await _firestore.collection('users').doc(user?.uid).set({
           'userInfo': {
-            'name': username,
-            'email': email,
-            'profilePicture': defaultProfilePictureUrl,
+            'name': user?.displayName,
+            'email': user?.email,
             'createdAt': FieldValue.serverTimestamp(),
           },
           'timesSelecionados': [],
         });
       } else {
-        print('Usuário já existe no Firestore');
+        throw Exception('Usuário já existe no Firestore');
       }
     } catch (e) {
-      print('Erro ao adicionar usuário: $e');
+      throw Exception('Erro ao adicionar usuário: $e');
     }
   }
 
+  Future<void> resetPassword() async {
+    var user = _auth.currentUser;
 
-  Future<void> updateOldUsersWithProfilePicture() async {
     try {
-      QuerySnapshot querySnapshot = await _firestore.collection('users').get();
-      for (QueryDocumentSnapshot doc in querySnapshot.docs) {
-        final data = doc.data() as Map<String, dynamic>?;
-        Map<String, dynamic> updates = {};
-        if (data != null) {
-          if (!data.containsKey('profilePicture')) {
-            updates['profilePicture'] = defaultProfilePictureUrl;
-          }
-          if (!data.containsKey('timesSelecionados')) {
-            updates['timesSelecionados'] = [];
-          }
-          if (updates.isNotEmpty) {
-            await _firestore.collection('users').doc(doc.id).update(updates);
-          }
-        }
-      }
+      await _auth.sendPasswordResetEmail(email: user!.email!);
     } catch (e) {
-      print('Erro ao atualizar usuários antigos: $e');
+      throw Exception('Erro ao redefinir senha: $e');
     }
   }
 
-  // Método para autenticação
+  //metodo para login
   Future<User?> signInWithEmailAndPassword(String email, String password) async {
     try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
@@ -122,44 +120,16 @@ class DatabaseController {
       );
       return userCredential.user;
     } catch (e) {
-      print('Erro ao fazer login: $e');
-      return null;
-    }
-  }
-  Future<void> resetEmail(String newEmail, String currentPassword) async {
-    try {
-      User? user = _auth.currentUser;
-      if (user != null) {
-        AuthCredential credential = EmailAuthProvider.credential(
-          email: user.email!,
-          password: currentPassword,
-        );
-        await user.reauthenticateWithCredential(credential);
-        await user.updateEmail(newEmail);
-        await _firestore.collection('users').doc(user.uid).update({
-          'userInfo.email': newEmail,
-        });
-      }
-    } catch (e) {
-      throw Exception('Erro ao redefinir e-mail: $e');
+      throw Exception('Erro ao realizar login: $e');
     }
   }
 
   // Método para cadastro
-  Future<User?> registerWithEmailAndPassword(String email, String password, String username) async {
-    try {
-      UserCredential result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
-      User? user = result.user;
-
-      // Adicione o nome de usuário ao perfil do usuário
-      await user?.updateDisplayName(username);
-      await user?.reload();
-      user = _auth.currentUser;
-
-      return user;
-    } catch (e) {
-      print(e.toString());
-      return null;
-    }
+  Future<void> registerWithEmailAndPassword(String email, String password, String username) async {
+    UserCredential result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+    // Adicione o nome de usuário ao perfil do usuário
+    await result.user?.updateDisplayName(username).catchError((e) {
+      throw Exception('Erro ao atualizar nome de usuário: $e');
+    });
   }
 }

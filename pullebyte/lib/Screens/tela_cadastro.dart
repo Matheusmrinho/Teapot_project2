@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:pullebyte/CustomWidgets/logo_header.dart';
 import 'package:pullebyte/theme/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pullebyte/CustomWidgets/Textinput.dart';
 import 'package:pullebyte/CustomWidgets/MainButton.dart';
-import 'package:pullebyte/controller_Database.dart';
+import 'package:pullebyte/controller_database.dart';
 
 class CadastroScreen extends StatelessWidget {
   final DatabaseController _databaseController = DatabaseController();
@@ -15,21 +15,21 @@ class CadastroScreen extends StatelessWidget {
 
   CadastroScreen({super.key});
 
-    void _register(context) async {
-    User? user = await _databaseController.registerWithEmailAndPassword(
-      _emailController.text,
-      _passwordController.text,
-      _usernameController.text,
-    );
-    if (user != null) {
-      Navigator.pushNamed(context, '/tela_login'); // Navegar para a tela inicial
-    } else {
+  void _register(context) async {
+    await _databaseController.registerWithEmailAndPassword(_emailController.text, _passwordController.text, _usernameController.text).then((user) {
+      Navigator.of(context).pop();
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Erro ao fazer cadastro'),
+        const SnackBar(
+          content: Text('Cadastro realizado com sucesso.'),
         ),
       );
-    }
+    }).catchError((e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Erro ao fazer cadastro $e'),
+        ),
+      );
+    });
   }
 
   @override
@@ -47,7 +47,7 @@ class CadastroScreen extends StatelessWidget {
           child: Row(
             children: [
               IconButton(
-                icon: const Icon(Icons.chevron_left_sharp), // Usa um construtor const
+                icon: const Icon(FeatherIcons.chevronLeft), // Usa um construtor const
                 onPressed: () {
                   Navigator.pop(context);
                 },
