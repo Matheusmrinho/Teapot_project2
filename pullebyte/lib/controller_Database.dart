@@ -1,8 +1,9 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'dart:typed_data';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart' as path;
 
 class DatabaseController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -12,33 +13,30 @@ class DatabaseController {
 
   getUserProfile() {
     var user = _auth.currentUser;
-    print(user?.photoURL);
     return user;
   }
 
-  Future<void> updateProfilePicture(Uint8List filePath) async {
+  Future<void> updateProfilePicture(File filePath) async {
     var user = _auth.currentUser;
 
     if (user == null) {
       throw Exception('Usuário não autenticado.');
     }
 
-    // Upload da imagem para o Firebase Storage
-    Reference ref = _storage.ref().child('users/${user.uid}/photoUrl.jpg');
+    final filename = path.basename(filePath.path);
+    final ref = _storage.ref().child('users/${user.uid}/$filename');
 
     // Obter a URL da imagem
-    await ref.putData(filePath).catchError((e) {
-      throw Exception('Erro ao enviar imagem para o Firebase Storage: $e');
+    await ref.putFile(filePath).catchError((e) {
+      print('Erro ao enviar imagem para o Firebase Storage: $e');
     });
-    String url;
-    await ref.getDownloadURL().then((value) {
-      url = value;
-      user.updatePhotoURL(url).catchError((e) {
-        throw Exception('Erro ao atualizar imagem de perfil: $e');
-      });
-    }).catchError((e) {
+
+    try {
+      var url = await ref.getDownloadURL();
+      await user.updatePhotoURL(url);
+    } catch (e) {
       throw Exception('Erro ao obter URL da imagem: $e');
-    });
+    }
   }
 
   Future<void> updateUserName(String name) async {

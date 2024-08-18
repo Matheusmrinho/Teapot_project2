@@ -66,7 +66,7 @@ class LoginScreen extends StatelessWidget {
               Expanded(
                 child: SvgPicture.asset(
                   assetName,
-                  fit: BoxFit.contain,
+                  fit: BoxFit.cover,
                   semanticsLabel: 'Soccer Image',
                 ),
               ),
@@ -97,13 +97,12 @@ class LoginScreen extends StatelessWidget {
                         route: '/tela_cadastro',
                         alignment: MainAxisAlignment.end,
                       ),
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 20),
                       const LinkAndText(
                         text: "",
                         route: '/tela_cadastro',
                         linkText: "Esqueceu a senha?",
                       ),
-                      const SizedBox(height: 30),
                     ],
                   ),
                 ),

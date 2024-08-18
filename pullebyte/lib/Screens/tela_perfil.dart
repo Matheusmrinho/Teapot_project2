@@ -1,12 +1,12 @@
-import 'dart:typed_data';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:pullebyte/CustomWidgets/MainButton.dart';
 import 'package:pullebyte/CustomWidgets/Textinput.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pullebyte/controller_database.dart'; // Importar o DatabaseController
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pullebyte/theme/colors.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -20,8 +20,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController _emailController = TextEditingController();
   bool _accessibilityEnabled = false;
   final DatabaseController _databaseController = DatabaseController();
-  String profilePictureUrl = ''; // Definindo a variável profilePictureUrl
-  Uint8List? profilePictureBytes;
+  String profilePictureUrl = 'https://i.yourimageshare.com/uuzM2gyY18.png'; // Definindo a variável profilePictureUrl
 
   @override
   void initState() {
@@ -35,8 +34,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() {
       _nameController.text = userData?.displayName ?? '';
       _emailController.text = userData?.email ?? '';
-      // profilePictureUrl = userData?.photoURL ?? _databaseController.defaultProfilePictureUrl;
-      profilePictureUrl = _databaseController.defaultProfilePictureUrl;
+      profilePictureUrl = userData?.photoURL ?? _databaseController.defaultProfilePictureUrl;
+      // profilePictureUrl = _databaseController.defaultProfilePictureUrl;
     });
   }
 
@@ -45,29 +44,68 @@ class _ProfileScreenState extends State<ProfileScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          content: Image.network(profilePictureUrl),
+          content: Center(
+            heightFactor: 1.05,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20.0),
+              child: Image.network(
+                profilePictureUrl,
+                width: 250.0,
+                height: 250.0,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
         );
       },
     );
   }
 
   Future<void> _updateProfilePicture() async {
-    final picker = ImagePicker();
-    final XFile? file = await picker.pickImage(source: ImageSource.gallery);
-    if (file != null) {
-      final img = await file.readAsBytes();
-      setState(() {
-        profilePictureBytes = img;
-      });
-      try {
-        await _databaseController.updateProfilePicture(profilePictureBytes!);
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Imagem salva com sucesso!')),
+    final ImagePicker _picker = ImagePicker();
+    final ImageSource? source = await showDialog<ImageSource>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Selecione uma opção'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              ListTile(
+                title: const Text('Câmera'),
+                onTap: () {
+                  Navigator.pop(context, ImageSource.camera);
+                },
+              ),
+              ListTile(
+                title: const Text('Galeria'),
+                onTap: () {
+                  Navigator.pop(context, ImageSource.gallery);
+                },
+              ),
+            ],
+          ),
         );
-      } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Erro ao salvar imagem: $e')),
-        );
+      },
+    );
+
+    if (source != null) {
+      final pickedFile = await _picker.pickImage(source: source);
+
+      if (pickedFile != null) {
+        final File file = File(pickedFile.path);
+
+        try {
+          await _databaseController.updateProfilePicture(file);
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Imagem salva com sucesso!')),
+          );
+        } catch (e) {
+          print(e);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Erro ao salvar imagem: $e')),
+          );
+        }
       }
     }
   }
@@ -139,8 +177,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final customColorScheme = Theme.of(context).colorScheme;
-
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -158,38 +194,58 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ],
           ),
         ),
-        body: RefreshIndicator(
-          onRefresh: _loadUserProfile,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Center(
-                  child: Stack(
-                    children: [
-                      GestureDetector(
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Center(
+                child: Stack(
+                  children: [
+                    GestureDetector(
                         onTap: () {
                           _showProfilePicture(profilePictureUrl);
                         },
-                        child: Image.network(
-                          profilePictureUrl,
-                          width: 90.0,
-                          height: 90.0,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: Container(
-                          width: 30.0,
-                          height: 30.0,
-                          decoration: BoxDecoration(
-                            color: customColorScheme.secondary,
-                            shape: BoxShape.circle,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(100.0),
+                          child: Image.network(
+                            profilePictureUrl,
+                            width: 170.0,
+                            height: 170.0,
+                            fit: BoxFit.cover,
+                            loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                              if (loadingProgress == null) {
+                                return child;
+                              } else {
+                                return SizedBox(
+                                  width: 170.0,
+                                  height: 170.0,
+                                  child: Center(
+                                    child: CircularProgressIndicator(
+                                      value: loadingProgress.expectedTotalBytes != null
+                                          ? loadingProgress.cumulativeBytesLoaded / (loadingProgress.expectedTotalBytes ?? 1)
+                                          : null,
+                                    ),
+                                  ),
+                                );
+                              }
+                            },
                           ),
+                        )),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: Container(
+                        width: 46.0,
+                        height: 46.0,
+                        decoration: BoxDecoration(
+                          color: customColorScheme.onPrimary,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Center(
                           child: IconButton(
-                            iconSize: 15.0,
-                            icon: SvgPicture.asset('lib/Assets/icon_plus_branco.svg'),
+                            iconSize: 32.0, // Ajuste o tamanho do ícone para caber no container
+                            color: customColorScheme.secondary,
+
+                            icon: const Icon(FeatherIcons.plus),
                             onPressed: () {
                               _updateProfilePicture();
                               // Ação do botão menor
@@ -197,76 +253,86 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ),
                       ),
+                    )
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
+              Card(
+                margin: const EdgeInsets.all(10),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Dados Pessoais',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      TextFieldSample(
+                        controller: _nameController,
+                        hintText: 'Nome',
+                        isSenha: false,
+                      ),
+                      const SizedBox(height: 10),
+                      TextFieldSample(
+                        controller: _emailController,
+                        hintText: 'E-mail',
+                        isSenha: false,
+                      ),
+                      const SizedBox(height: 10),
+                      MainButton(
+                        text: 'Salvar',
+                        onPressed: _savePersonalData,
+                      ),
                     ],
                   ),
                 ),
-                Card(
-                  margin: const EdgeInsets.all(10),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Text(
-                          'Dados Pessoais',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        TextFieldSample(
-                          controller: _nameController,
-                          hintText: 'Nome',
-                          isSenha: false,
-                        ),
-                        const SizedBox(height: 10),
-                        TextFieldSample(
-                          controller: _emailController,
-                          hintText: 'E-mail',
-                          isSenha: false,
-                        ),
-                        const SizedBox(height: 10),
-                        MainButton(
-                          text: 'Salvar',
-                          onPressed: _savePersonalData,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Card(
-                  margin: const EdgeInsets.all(10),
-                  child: Padding(
-                    padding: const EdgeInsets.all(2),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Text('Redefinição de Senha', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                        const SizedBox(height: 10),
-                        MainButton(
-                          onPressed: _resetPassword,
-                          text: 'Redefinir Senha',
-                        ),
-                        // ),
-                      ],
-                    ),
-                  ),
-                ),
-                Card(
-                  margin: const EdgeInsets.all(2),
+              ),
+              Card(
+                margin: const EdgeInsets.all(10),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Redefinir Senha',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      MainButton(
+                        onPressed: _resetPassword,
+                        text: 'Redefinir Senha',
+                      ),
+                      // ),
+                    ],
+                  ),
+                ),
+              ),
+              Card(
+                margin: const EdgeInsets.all(10),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
                         'Acessibilidade',
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 22,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
+                      const SizedBox(height: 20),
                       DropdownButton<bool>(
-                        menuWidth: 350,
                         value: _accessibilityEnabled,
                         items: const [
                           DropdownMenuItem(
@@ -284,6 +350,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           });
                         },
                       ),
+                      const SizedBox(height: 20),
+                      MainButton(
+                        text: 'Salvar',
+                        onPressed: () {},
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Card(
+                margin: const EdgeInsets.all(10),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                       Padding(
                         padding: const EdgeInsetsDirectional.all(10.0),
                         child: MainButton(
@@ -294,8 +376,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
