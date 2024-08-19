@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pullebyte/CustomWidgets/canhotos_holder.dart';
 import 'package:pullebyte/CustomWidgets/custom_app_bar.dart';
 import 'package:pullebyte/CustomWidgets/canhotos_searchbar.dart';
+import 'package:pullebyte/CustomWidgets/guardar_canhotos_button.dart';
 
 class Canhotos extends StatefulWidget {
   const Canhotos({super.key});
@@ -16,22 +17,19 @@ class _CanhotosState extends State<Canhotos>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            CustomAppBar(),
-            CanhotosSearchBar(),
-            CanhotosHolder(),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/tela_login');
-              },
-              child: const Text('Login'),
-            ),
-            const SizedBox(height: 16),
-          ],
+      body: Stack(children: [
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              CustomAppBar(),
+              CanhotosSearchBar(),
+              CanhotosHolder(),
+              const SizedBox(height: 16),
+            ],
+          ),
         ),
-      ),
+        Positioned(bottom: 16.0, right: 16.0, child: AdicionarCanhotoButton())
+      ]),
     );
   }
 
