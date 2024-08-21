@@ -42,6 +42,7 @@ class TextFieldSample extends StatelessWidget {
             hintText: hintText,
             labelText: hintText,
             labelStyle: const TextStyle(color: CustomColors.accentColor),
+            floatingLabelBehavior: FloatingLabelBehavior.never,
           ),
         ),
       ),
