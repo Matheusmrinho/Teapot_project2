@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pullebyte/CustomWidgets/canhotos_card.dart';
 
 class CanhotosHolder extends StatefulWidget {
-  const CanhotosHolder({ super.key });
+  const CanhotosHolder({super.key});
 
   @override
   _CanhotosHolderState createState() => _CanhotosHolderState();
@@ -18,7 +18,6 @@ class _CanhotosHolderState extends State<CanhotosHolder> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text("Aqui vai ter o filtro dos canhotos", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               const SizedBox(height: 18),
               Column(
                 children: List.generate(

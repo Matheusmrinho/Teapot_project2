@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:pullebyte/CustomWidgets/live_card.dart';
 import 'dart:convert';
 
-
 class CardHolder extends StatelessWidget {
   final List<dynamic> matchesData;
   final bool isLoading;
 
-  const CardHolder({super.key, required this.matchesData, required this.isLoading});
+  const CardHolder(
+      {super.key, required this.matchesData, required this.isLoading});
 
   @override
   Widget build(BuildContext context) {
@@ -36,13 +36,18 @@ class CardHolder extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         child: Row(
                           children: matchesData.map((match) {
-                            List<dynamic> partidas = match['partidas'];// list<dynamic> partidas = match['campeonato']['partidas'];
+                            List<dynamic> partidas = match[
+                                'partidas']; // list<dynamic> partidas = match['campeonato']['partidas'];
                             return Row(
                               children: partidas.map((partida) {
-                                return partida['Situacao'] != 'Encerrado' && partida['Situacao'] != 'Em breve'// List<dynamic> partidas = match['partidas']; return Row( children: partidas.map((partida) { return partida['Situacao'] == 'Em breve'}
+                                return partida['Situacao'] != 'Encerrado' &&
+                                        partida['Situacao'] !=
+                                            'Em breve' // List<dynamic> partidas = match['partidas']; return Row( children: partidas.map((partida) { return partida['Situacao'] == 'Em breve'}
                                     ? Padding(
-                                        padding: const EdgeInsets.only(right: 10),
-                                        child: LiveCard(jsonData: jsonEncode(partida)),
+                                        padding:
+                                            const EdgeInsets.only(right: 10),
+                                        child: LiveCard(
+                                            jsonData: jsonEncode(partida)),
                                       )
                                     : const SizedBox.shrink();
                               }).toList(),

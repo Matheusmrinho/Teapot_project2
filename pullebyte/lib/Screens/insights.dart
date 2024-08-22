@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pullebyte/CustomWidgets/custom_app_bar.dart';
+import 'package:pullebyte/CustomWidgets/insight_card_holder.dart';
+import 'package:pullebyte/CustomWidgets/grafico_insight.dart';
 
 class Insights extends StatefulWidget {
   const Insights({super.key});
@@ -8,29 +10,22 @@ class Insights extends StatefulWidget {
   _InsightsState createState() => _InsightsState();
 }
 
-class _InsightsState extends State<Insights> with AutomaticKeepAliveClientMixin {
+class _InsightsState extends State<Insights>
+    with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Scaffold(
-      body: Stack(
-        children: [
-          CustomAppBar(),
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/tela_cadastro');
-                  },
-                  child: const Text('Insights'),
-                ),
-                const SizedBox(height: 16),
-              ],
-            ),
+    return SafeArea(
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              CustomAppBar(),
+              const InsightCardHolder(isLoading: false),
+              // const Insightgrafico(isLoading: false),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
