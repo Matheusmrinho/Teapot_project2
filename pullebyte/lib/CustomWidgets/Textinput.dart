@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pullebyte/theme/colors.dart';
+
 //Bom dia
 class TextFieldSample extends StatelessWidget {
   final String hintText;
@@ -26,7 +27,7 @@ class TextFieldSample extends StatelessWidget {
       child: SizedBox(
         width: width,
         child: TextField(
-          controller: controller, 
+          controller: controller,
           cursorRadius: const Radius.circular(8),
           obscureText: isSenha,
           style: const TextStyle(color: CustomColors.accentColor),
@@ -40,6 +41,7 @@ class TextFieldSample extends StatelessWidget {
               ),
             ),
             hintText: hintText,
+            hintStyle: const TextStyle(color: CustomColors.accentColor),
             labelText: hintText,
             labelStyle: const TextStyle(color: CustomColors.accentColor),
             floatingLabelBehavior: FloatingLabelBehavior.never,

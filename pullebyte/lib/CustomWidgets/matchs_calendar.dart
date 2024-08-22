@@ -31,7 +31,7 @@ class MatchCalendarCard extends StatelessWidget {
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => Mapa(stadiumName: data['Estadio']),
+          builder: (context) => Mapa(stadiumName: data['Estadio'], data: data),
         ),
       ),
       child: Container(
@@ -53,7 +53,8 @@ class MatchCalendarCard extends StatelessWidget {
                     Container(
                       constraints: const BoxConstraints(maxWidth: 130),
                       child: Text(
-                        processCampeonato(data['Campeonato']), // Label Bas. Série A ou nome do camp completo
+                        processCampeonato(data[
+                            'Campeonato']), // Label Bas. Série A ou nome do camp completo
                         style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
@@ -175,15 +176,24 @@ class MatchCalendarCard extends StatelessWidget {
                       children: [
                         Text(
                           "1 ",
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
                         ),
                         Text(
                           " | ",
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal, color: Colors.grey[600]),
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.normal,
+                              color: Colors.grey[600]),
                         ),
                         Text(
                           "0.0",
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
                         ),
                       ],
                     ),
@@ -200,15 +210,24 @@ class MatchCalendarCard extends StatelessWidget {
                       children: [
                         Text(
                           "x ",
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
                         ),
                         Text(
                           " | ",
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal, color: Colors.grey[600]),
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.normal,
+                              color: Colors.grey[600]),
                         ),
                         Text(
                           "0.0",
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
                         ),
                       ],
                     ),
@@ -225,15 +244,24 @@ class MatchCalendarCard extends StatelessWidget {
                       children: [
                         Text(
                           "2 ",
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
                         ),
                         Text(
                           " | ",
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal, color: Colors.grey[600]),
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.normal,
+                              color: Colors.grey[600]),
                         ),
                         Text(
                           "0.0",
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
                         ),
                       ],
                     ),
