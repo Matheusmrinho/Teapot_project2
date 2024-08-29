@@ -92,7 +92,7 @@ flutter:
       - lib/Assets/icon_plus.svg
       - lib/Assets/icon_plus_branco.svg
       - lib/Assets/profile_pic.png
-
+      - lib/Assets/Security.svg
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
