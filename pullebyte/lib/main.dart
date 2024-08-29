@@ -8,6 +8,8 @@ import 'Screens/home.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'Screens/tela_perfil.dart';
+import 'Screens/tela_recuperar_senha.dart';
+
 
 
 
@@ -31,6 +33,7 @@ void main() async {
     routes: {
       '/tela_login': (context) =>  LoginScreen(),
       '/tela_cadastro': (context) =>  CadastroScreen(),
+      '/tela_recuperar_senha': (context) => PasswordRecoveryScreen(),
       '/home': (context) =>  const Scaffold(
         body:  Home(),
         bottomNavigationBar: HomeScreen(),

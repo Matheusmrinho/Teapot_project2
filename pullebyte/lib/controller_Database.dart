@@ -99,11 +99,19 @@ class DatabaseController {
     }
   }
 
-  Future<void> resetPassword() async {
+    Future<void> resetPassword() async {
     var user = _auth.currentUser;
 
     try {
       await _auth.sendPasswordResetEmail(email: user!.email!);
+    } catch (e) {
+      throw Exception('Erro ao redefinir senha: $e');
+    }
+  }
+
+  Future<void> resetPasswordWithEmail(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
     } catch (e) {
       throw Exception('Erro ao redefinir senha: $e');
     }

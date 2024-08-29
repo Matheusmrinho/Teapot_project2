@@ -100,7 +100,7 @@ class LoginScreen extends StatelessWidget {
                       const SizedBox(height: 20),
                       const LinkAndText(
                         text: "",
-                        route: '/tela_cadastro',
+                        route: '/tela_recuperar_senha',
                         linkText: "Esqueceu a senha?",
                       ),
                     ],
