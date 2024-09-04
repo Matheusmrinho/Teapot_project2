@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pullebyte/CustomWidgets/MainButton.dart';
 import 'package:pullebyte/CustomWidgets/Textinput.dart';
 import 'package:pullebyte/CustomWidgets/logo_header.dart';
@@ -29,12 +30,47 @@ class LoginScreen extends StatelessWidget {
       );
       await _databaseController.addUserInfo();
     }).catchError((e) {
+      String errorMessage = getErrorMessage(e);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Email ou senha inválidos.'),
+        SnackBar(
+          content: Text(errorMessage),
         ),
       );
     });
+  }
+
+  String getErrorMessage(dynamic error) {
+    // Adiciona um log para verificar o tipo de erro
+    print('Erro capturado: $error');
+    print('Tipo de erro: ${error.runtimeType}');
+    
+    if (error is FirebaseAuthException) {
+      switch (error.code) {
+        case 'user-not-found':
+          return 'Usuário não encontrado.';
+        case 'wrong-password':
+          return 'Senha incorreta.';
+        case 'invalid-email':
+          return 'Email inválido.';
+        default:
+          return 'Ocorreu um erro ao efetuar o login. Por favor, verifique se o email e senha foram inseridos corretamente.';
+      }
+    } else if (error is Exception && error.toString().contains('firebase_auth')) {
+      // Extrai o código de erro da mensagem da exceção
+      String errorCode = error.toString().split('[')[1].split(']')[0];
+      switch (errorCode) {
+        case 'firebase_auth/user-not-found':
+          return 'Usuário não encontrado.';
+        case 'firebase_auth/wrong-password':
+          return 'Email ou Senha incorretas.';
+        case 'firebase_auth/invalid-email':
+          return 'Email inválido, tente usar um endereço de email válido.';
+        default:
+          return 'Ocorreu um erro ao efetuar o login. Por favor, verifique se o email e senha foram inseridos corretamente.';
+      }
+    } else {
+      return 'Ocorreu um erro. Por favor, tente novamente.';
+    }
   }
 
   @override
