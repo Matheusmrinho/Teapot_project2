@@ -17,19 +17,27 @@ class _CanhotosState extends State<Canhotos>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      body: Stack(children: [
-        SingleChildScrollView(
-          child: Column(
-            children: [
-              CustomAppBar(),
-              CanhotosSearchBar(),
-              CanhotosHolder(),
-              const SizedBox(height: 16),
-            ],
-          ),
+      body: SizedBox.expand( // Garante que o Stack ocupe toda a tela
+        child: Stack(
+          children: [
+            SingleChildScrollView(
+              child: Column(
+                children: [
+                  CustomAppBar(),
+                  CanhotosSearchBar(),
+                  CanhotosHolder(),
+                  const SizedBox(height: 16),
+                ],
+              ),
+            ),
+            const Positioned(
+              bottom: 16,
+              right: 16,
+              child: AdicionarCanhotoButton(),
+            ),
+          ],
         ),
-        Positioned(bottom: 16.0, right: 16.0, child: AdicionarCanhotoButton())
-      ]),
+      ),
     );
   }
 

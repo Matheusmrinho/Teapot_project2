@@ -36,7 +36,7 @@ class CadastroScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     const String assetName = 'lib/Assets/Icon_cadastro.svg';
     return Scaffold(
-      backgroundColor: customColorScheme.background,
+      backgroundColor: customColorScheme.surface,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         centerTitle: true,

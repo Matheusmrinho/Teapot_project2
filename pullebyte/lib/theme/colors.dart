@@ -17,12 +17,10 @@ const customColorScheme = ColorScheme(
   primary: CustomColors.primaryColor,
   secondary: CustomColors.accentColor,
   surface: CustomColors.backgroundColor,
-  background: CustomColors.backgroundColor,
   error: Colors.red, // Se desejar uma cor de erro personalizada
   onPrimary: CustomColors.textColor,
   onSecondary: CustomColors.textColor,
   onSurface: CustomColors.textColor,
-  onBackground: CustomColors.textColor,
   onError: Colors.white,
   brightness: Brightness.dark, // Ou ajuste para Brightness.dark conforme necessário
 );

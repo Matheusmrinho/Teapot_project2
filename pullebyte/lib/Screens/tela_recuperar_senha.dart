@@ -51,7 +51,7 @@ class _PasswordRecoveryScreenState extends State<PasswordRecoveryScreen> {
   Widget build(BuildContext context) {
     const String assetName = 'lib/Assets/Security.svg'; 
     return Scaffold(
-      backgroundColor: customColorScheme.background,
+      backgroundColor: customColorScheme.surface,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         toolbarHeight: 110,
