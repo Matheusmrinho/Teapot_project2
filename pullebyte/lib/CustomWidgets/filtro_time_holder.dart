@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:pullebyte/CustomWidgets/ShowModal.dart';
 import 'filtro_time_logic.dart';
 import 'time_item.dart';
@@ -11,9 +12,6 @@ class FiltroTime extends StatefulWidget {
 }
 
 class _FiltroTimeState extends State<FiltroTime> {
-  final FiltroTimeLogic filtroTimeLogic = FiltroTimeLogic();
-
-
   @override
   void initState() {
     super.initState();
@@ -22,6 +20,7 @@ class _FiltroTimeState extends State<FiltroTime> {
 
   Future<void> _carregarFiltros() async {
     try {
+      final filtroTimeLogic = context.read<FiltroTimeLogic>();
       await filtroTimeLogic.carregarFiltrosDoFirestore();
       setState(() {});
     } catch (e) {
@@ -31,6 +30,8 @@ class _FiltroTimeState extends State<FiltroTime> {
 
   @override
   Widget build(BuildContext context) {
+    final filtroTimeLogic = context.watch<FiltroTimeLogic>();
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 10),
       child: Column(
@@ -63,48 +64,43 @@ class _FiltroTimeState extends State<FiltroTime> {
                   return TimeItem(
                     time: time,
                     onTap: () {
-                      setState(() {
-                        filtroTimeLogic.alternarSelecao(index);
-                      });
+                      filtroTimeLogic.alternarSelecao(index);
                     },
                     onLongPress: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text('Excluir Filtro?'),
-                          content: Text(
-                                'Deseja excluir o Filtro ${time['nome']}?'),
-                                                      actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Text('Cancelar'),
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text('Excluir Filtro?'),
+                            content: Text(
+                              'Deseja excluir o Filtro ${time['nome']}?',
                             ),
-                            TextButton(
-                              onPressed: () {
-                                setState(() {
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('Cancelar'),
+                              ),
+                              TextButton(
+                                onPressed: () {
                                   filtroTimeLogic.excluirTime(index);
-                                });
-                                Navigator.pop(context);
-                              },
-                              child: const Text('Excluir'),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                );
-               }),
-               MeuModalWidget(
-                onItemSelected: (nome, escudoUrl) {
-                  setState(() {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('Excluir'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  );
+                }).toList(),
+                MeuModalWidget(
+                  onItemSelected: (nome, escudoUrl) {
                     filtroTimeLogic.adicionarTime(nome, escudoUrl, context);
-                  });
-                },
-             ),
+                  },
+                ),
               ],
             ),
           ),

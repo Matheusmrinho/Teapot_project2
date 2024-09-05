@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:pullebyte/CustomWidgets/filtro_time_logic.dart';
 import 'package:pullebyte/Screens/tela_login.dart';
 import 'package:pullebyte/controller_canhotos.dart';
 import 'package:pullebyte/theme/colors.dart';
@@ -21,6 +22,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => CanhotosController(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => FiltroTimeLogic(),
         ),
       ],
       child: MaterialApp(

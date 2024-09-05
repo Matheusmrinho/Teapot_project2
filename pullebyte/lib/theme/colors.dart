@@ -14,6 +14,8 @@ class CustomColors {
 }
 
 const customColorScheme = ColorScheme(
+  background: CustomColors.backgroundColor,
+  onBackground: CustomColors.backgroundColor,
   primary: CustomColors.primaryColor,
   secondary: CustomColors.accentColor,
   surface: CustomColors.backgroundColor,
