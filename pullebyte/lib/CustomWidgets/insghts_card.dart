@@ -20,7 +20,7 @@ class InsghtsCard extends StatelessWidget {
         Container(
           // constraints: const BoxConstraints(maxWidth: 80),
           width: 222.0,
-          height: 130.0,
+          height: 145.0,
           decoration: BoxDecoration(
             color: CustomColors.primaryColor,
             borderRadius: BorderRadius.circular(12.0),

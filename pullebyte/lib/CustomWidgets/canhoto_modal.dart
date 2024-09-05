@@ -26,7 +26,7 @@ class _CanhotoModalState extends State<CanhotoModal> {
   final TextEditingController _pulleValueCotacaoController = TextEditingController();
   final TextEditingController _pulleStatusController = TextEditingController();
   final TextEditingController _searchController = TextEditingController();
-  String _photoController = 'https://via.placeholder.com/150';
+  String _photoController = '';
   String _pulleTimeSelected = '';
   String _pulleTimeSelectedID = '';
   String canhotoID = '';
@@ -138,7 +138,13 @@ class _CanhotoModalState extends State<CanhotoModal> {
         final File file = File(pickedFile.path);
 
         try {
-          _photoController = await context.read<CanhotosController>().updateCanhotoPicture(file, canhotoId);
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Fazendo upload da imagem...')),
+          );
+          final String photoUrl = await context.read<CanhotosController>().updateCanhotoPicture(file, canhotoId);
+          setState(() {
+            _photoController = photoUrl;
+          });
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Imagem salva com sucesso!')),
           );
@@ -155,7 +161,7 @@ class _CanhotoModalState extends State<CanhotoModal> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 700,
+      height: MediaQuery.of(context).size.height * 0.93,
       width: double.infinity,
       padding: const EdgeInsets.all(16.0),
       decoration: const BoxDecoration(
@@ -176,122 +182,133 @@ class _CanhotoModalState extends State<CanhotoModal> {
             ),
           ),
           Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const SizedBox(height: 32.0),
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: const Text(
-                      'Adicionar Canhoto',
-                      style: TextStyle(
-                        color: CustomColors.textColor,
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.left,
+  child: LayoutBuilder(
+    builder: (BuildContext context, BoxConstraints constraints) {
+      return SingleChildScrollView(
+        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        child: ConstrainedBox(
+          constraints: BoxConstraints(minHeight: constraints.maxHeight),
+          child: IntrinsicHeight(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 32.0),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: const Text(
+                    'Adicionar Canhoto',
+                    style: TextStyle(
+                      color: CustomColors.textColor,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+                const SizedBox(height: 32.0),
+                TextFieldSample(
+                  controller: _pulleTitleController,
+                  hintText: 'Título da aposta',
+                  isSenha: false,
+                ),
+                const SizedBox(height: 21.0),
+                TextFieldSample(
+                  controller: _pulleDateController,
+                  hintText: 'dd/mm/aaaa',
+                  isDate: true,
+                  isSenha: false,
+                ),
+                const SizedBox(height: 21.0),
+                TextFieldSample(
+                  controller: _pulleValueController,
+                  hintText: 'Valor apostado',
+                  isSenha: false,
+                  isValue: true,
+                  isMoney: true,
+                ),
+                const SizedBox(height: 21.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    TextFieldSample(
+                      controller: _pulleValueCotacaoController,
+                      hintText: 'Cotação',
+                      isSenha: false,
+                      isValue: true,
+                      inputWidth: 0.4,
+                    ),
+                    const SizedBox(height: 21.0),
+                    Dropdown(
+                      hintText: 'Situação',
+                      numeroDeOpcoes: const ['Ganhou', 'Perdeu', 'Em Andamento'],
+                      onChanged: (String? value) {
+                        _pulleStatusController.text = value!;
+                      },
+                      inputWidth: 0.4,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 21.0),
+                TextFieldSample(
+                  controller: _searchController,
+                  hintText: 'Time apostado',
+                  isSenha: false,
+                  onChanged: (query) {
+                    setState(() {
+                      _foundTimes = _filterTimes(query);
+                    });
+                  },
+                ),
+                if (_foundTimes.isNotEmpty && _searchController.text.isNotEmpty)
+                  SizedBox(
+                    height: 200,
+                    width: double.infinity * 0.85,
+                    child: ListView.builder(
+                      itemCount: _foundTimes.length,
+                      itemBuilder: (context, index) {
+                        final time = _foundTimes[index];
+                        return _criarItem(context, time['nomeDoTime'].toString(), time['idImagem'].toString());
+                      },
                     ),
                   ),
-                  const SizedBox(height: 32.0),
-                  TextFieldSample(
-                    controller: _pulleTitleController,
-                    hintText: 'Título da aposta',
-                    isSenha: false,
+                const SizedBox(height: 21.0),
+                Container(
+                  height: 96,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: CustomColors.accentColor,
+                    borderRadius: BorderRadius.circular(8.0),
                   ),
-                  const SizedBox(height: 21.0),
-                  TextFieldSample(
-                    controller: _pulleDateController,
-                    hintText: 'dd/mm/aaaa',
-                    isDate: true,
-                    isSenha: false,
-                  ),
-                  const SizedBox(height: 21.0),
-                  TextFieldSample(
-                    controller: _pulleValueController,
-                    hintText: 'Valor apostado',
-                    isSenha: false,
-                    isValue: true,
-                    isMoney: true,
-                  ),
-                  const SizedBox(height: 21.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      TextFieldSample(
-                        controller: _pulleValueCotacaoController,
-                        hintText: 'Cotação',
-                        isSenha: false,
-                        isValue: true,
-                        inputWidth: 0.4,
-                      ),
-                      const SizedBox(height: 21.0),
-                      Dropdown(
-                        hintText: 'Situação',
-                        numeroDeOpcoes: const ['Ganhou', 'Perdeu', 'Em Andamento'],
-                        onChanged: (String? value) {
-                          _pulleStatusController.text = value!;
-                        },
-                        inputWidth: 0.4,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 21.0),
-                  TextFieldSample(
-                    controller: _searchController,
-                    hintText: 'Time apostado',
-                    isSenha: false,
-                    onChanged: (query) {
-                      setState(() {
-                        _foundTimes = _filterTimes(query);
-                      });
-                    },
-                  ),
-                  if (_foundTimes.isNotEmpty && _searchController.text.isNotEmpty)
-                    SizedBox(
-                      height: 200,
-                      width: double.infinity * 0.85,
-                      child: ListView.builder(
-                        itemCount: _foundTimes.length,
-                        itemBuilder: (context, index) {
-                          final time = _foundTimes[index];
-                          return _criarItem(context, time['nomeDoTime'].toString(), time['idImagem'].toString());
-                        },
+                  child: GestureDetector(
+                    child: const Center(
+                      child: Icon(
+                        Icons.add_a_photo_rounded,
+                        color: CustomColors.textFieldColor,
+                        size: 24.0,
                       ),
                     ),
-                  const SizedBox(height: 21.0),
-                  Container(
-                    height: 96,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: CustomColors.accentColor,
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: GestureDetector(
-                      child: const Center(
-                        child: Icon(
-                          Icons.add_a_photo_rounded,
-                          color: CustomColors.textFieldColor,
-                          size: 24.0,
-                        ),
-                      ),
-                      onTap: () => _updateCanhotoPicture(context, canhotoID),
-                    ),
+                    onTap: () => _updateCanhotoPicture(context, canhotoID),
                   ),
-                  const SizedBox(height: 21.0),
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: MainButton(
-                      text: 'Salvar',
-                      onPressed: () => salvarCanhoto(context),
-                    ),
+                ),
+                const SizedBox(height: 21.0),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: MainButton(
+                    text: 'Salvar',
+                    onPressed: () => salvarCanhoto(context),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
+        ),
+      );
+    },
+  ),
+),
+
         ],
       ),
     );

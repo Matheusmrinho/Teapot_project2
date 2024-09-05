@@ -30,6 +30,7 @@ class _DropdownState extends State<Dropdown> {
 //
     return Container(
       width: width,
+      height: 65,
       padding: EdgeInsets.symmetric(horizontal: 12.0),
       decoration: BoxDecoration(
         color: customColorScheme.onPrimary,

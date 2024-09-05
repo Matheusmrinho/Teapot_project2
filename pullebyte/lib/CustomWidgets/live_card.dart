@@ -80,9 +80,9 @@ class LiveCard extends StatelessWidget {
                 children: [
                   const SizedBox(height: 4),
                   Text(
-                    "${data['GolsMand']}:${data['GolsAdv']}",
+                    "${data['GolsMand']}-${data['GolsAdv']}",
                     style: TextStyle(
-                      fontSize: 32,
+                      fontSize: 30,
                       fontWeight: FontWeight.bold,
                       color: customColorScheme.onPrimary,
                     ),

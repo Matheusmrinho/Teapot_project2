@@ -51,7 +51,6 @@ class CadastroScreen extends StatelessWidget {
   }
 
   String getErrorMessage(dynamic error) {
-    // Adiciona um log para verificar o tipo de erro
     print('Erro capturado: $error');
     print('Tipo de erro: ${error.runtimeType}');
     
@@ -67,7 +66,6 @@ class CadastroScreen extends StatelessWidget {
           return 'Ocorreu um erro ao efetuar o cadastro. Por favor, verifique se os dados foram inseridos corretamente.';
       }
     } else if (error is Exception && error.toString().contains('firebase_auth')) {
-      // Extrai o código de erro da mensagem da exceção
       String errorCode = error.toString().split('[')[1].split(']')[0];
       switch (errorCode) {
         case 'firebase_auth/email-already-in-use':
@@ -84,7 +82,6 @@ class CadastroScreen extends StatelessWidget {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     const String assetName = 'lib/Assets/Icon_cadastro.svg';
@@ -100,7 +97,7 @@ class CadastroScreen extends StatelessWidget {
           child: Row(
             children: [
               IconButton(
-                icon: const Icon(FeatherIcons.chevronLeft), // Usa um construtor const
+                icon: const Icon(FeatherIcons.chevronLeft),
                 onPressed: () {
                   Navigator.pop(context);
                 },
@@ -113,60 +110,56 @@ class CadastroScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: Stack(
-        children: <Widget>[
-          Column(
-            children: <Widget>[
-              Expanded(
-                child: SvgPicture.asset(
-                  assetName,
-                  fit: BoxFit.contain, // Usa BoxFit.contain para manter a proporção da imagem
-                  semanticsLabel: 'Logo',
-                  height: 500,
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            SvgPicture.asset(
+              assetName,
+              fit: BoxFit.contain,
+              semanticsLabel: 'Logo',
+              height: 300,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    TextFieldSample(
+                      controller: _usernameController,
+                      hintText: 'Nome de Usuário',
+                      isSenha: false,
+                    ),
+                    const SizedBox(height: 16),
+                    TextFieldSample(
+                      controller: _emailController,
+                      hintText: 'Email',
+                      isSenha: false,
+                    ),
+                    const SizedBox(height: 16),
+                    TextFieldSample(
+                      controller: _passwordController,
+                      hintText: 'Senha',
+                      isSenha: true,
+                    ),
+                    const SizedBox(height: 16),
+                    TextFieldSample(
+                      controller: _confirmPasswordController,
+                      hintText: 'Confirmar Senha',
+                      isSenha: true,
+                    ),
+                    const SizedBox(height: 24),
+                    MainButton(
+                      text: 'Cadastrar',
+                      onPressed: () => _register(context),
+                    ),
+                    const SizedBox(height: 24),
+                  ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      TextFieldSample(
-                        controller: _usernameController,
-                        hintText: 'Nome de Usuário',
-                        isSenha: false,
-                      ),
-                      const SizedBox(height: 16),
-                      TextFieldSample(
-                        controller: _emailController,
-                        hintText: 'Email',
-                        isSenha: false,
-                      ),
-                      const SizedBox(height: 16),
-                      TextFieldSample(
-                        controller: _passwordController,
-                        hintText: 'Senha',
-                        isSenha: true,
-                      ),
-                      const SizedBox(height: 16),
-                      TextFieldSample(
-                        controller: _confirmPasswordController,
-                        hintText: ' Confirmar Senha',
-                        isSenha: true,
-                      ),
-                      const SizedBox(height: 24),
-                      MainButton(
-                        text: 'Cadastrar',
-                        onPressed: () => _register(context),
-                      ),
-                      const SizedBox(height: 24),
-                    ],
-                  ),
-                ),
-              )
-            ],
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }

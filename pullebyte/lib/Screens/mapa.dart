@@ -160,7 +160,7 @@ class _MapaState extends State<Mapa> {
                                         ),
                                       ] else ...[
                                         Text(
-                                          "${widget.data!['GolsMand']}:${widget.data!['GolsAdv']}",
+                                          "${widget.data!['GolsMand']} - ${widget.data!['GolsAdv']}",
                                           style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold,

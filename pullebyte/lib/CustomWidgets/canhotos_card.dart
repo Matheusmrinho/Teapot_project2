@@ -137,10 +137,11 @@ class _CanhotosCardState extends State<CanhotosCard> {
                 child: CachedNetworkImage(
                   width: width / 2.5,
                   height: 155,
-                  imageUrl: "",
+                  imageUrl: widget.canhoto['pulleImage'],
                   imageBuilder: (context, imageProvider) => Container(
                     decoration: BoxDecoration(
-                      shape: BoxShape.circle,
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.circular(20),
                       image: DecorationImage(
                         image: imageProvider,
                         fit: BoxFit.cover,

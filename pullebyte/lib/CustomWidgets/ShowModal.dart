@@ -54,55 +54,58 @@ class _MeuModalWidgetState extends State<MeuModalWidget> {
   void _exibirModal(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true, // Permite que o modal seja redimensionado
       builder: (BuildContext context) {
-        return SafeArea(child: StatefulBuilder(
-          builder: (BuildContext context, StateSetter setState) {
-            return Container(
-              height: 400,
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  TextField(
-                    controller: _searchController,
-                    onChanged: (query) {
-                      setState(() {
-                        _foundTimes = _filterTimes(query);
-                      });
-                    },
-                    decoration: const InputDecoration(
-                      hintText: 'Pesquisar',
-                      prefixIcon: Icon(Icons.search),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  if (_foundTimes.isEmpty)
-                    const Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Text(
-                        'Nenhum time encontrado',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 16,
+        return SafeArea(
+          child: StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return FractionallySizedBox(
+                heightFactor: 0.7, // Ajusta a altura para 70% da tela
+                child: Container(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      TextField(
+                        controller: _searchController,
+                        onChanged: (query) {
+                          setState(() {
+                            _foundTimes = _filterTimes(query);
+                          });
+                        },
+                        decoration: const InputDecoration(
+                          hintText: 'Pesquisar',
+                          prefixIcon: Icon(Icons.search),
                         ),
                       ),
-                    ),
-                  Expanded(
-                    child: _foundTimes.isEmpty
-                        ? SizedBox()
-                        : ListView.builder(
-                            key: UniqueKey(),
-                            itemCount: _foundTimes.length,
-                            itemBuilder: (context, index) {
-                              final time = _foundTimes[index];
-                              return _criarItem(context, time['nomeDoTime'], time['idImagem']);
-                            },
+                      const SizedBox(height: 10),
+                      if (_foundTimes.isEmpty)
+                        const Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Text(
+                            'Nenhum time encontrado',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
                           ),
+                        ),
+                      Expanded(
+                        child: _foundTimes.isEmpty
+                            ? SizedBox()
+                            : ListView.builder(
+                                itemCount: _foundTimes.length,
+                                itemBuilder: (context, index) {
+                                  final time = _foundTimes[index];
+                                  return _criarItem(context, time['nomeDoTime'], time['idImagem']);
+                                },
+                              ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            );
-          },
+                ),
+              );
+            },
           ),
         );
       },

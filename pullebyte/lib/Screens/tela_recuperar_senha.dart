@@ -5,7 +5,7 @@ import 'package:pullebyte/CustomWidgets/Textinput.dart';
 import 'package:pullebyte/CustomWidgets/logo_header.dart';
 import 'package:pullebyte/theme/colors.dart';
 import 'package:pullebyte/controller_database.dart';
-import 'package:pullebyte/Screens/tela_login.dart'; // Importe a tela de login
+import 'package:pullebyte/Screens/tela_login.dart';
 
 class PasswordRecoveryScreen extends StatefulWidget {
   @override
@@ -73,54 +73,58 @@ class _PasswordRecoveryScreenState extends State<PasswordRecoveryScreen> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(top: 3.0), // Menos padding no topo
-              child: SvgPicture.asset(
-                assetName,
-                fit: BoxFit.contain,
-                height: 250, // Ajuste a altura se necessário
-                semanticsLabel: 'Recuperação de Senha',
-              ),
-            ),
-            const SizedBox(height: 16), // Menos espaço entre imagem e texto
-            const Text(
-              'Digite seu email cadastrado na plataforma para a redefinição da senha',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.white,
-              ),
-            ),
-            const SizedBox(height: 16), // Menos espaço entre texto e campo de entrada
-            TextFieldSample(
-              controller: _emailController,
-              hintText: "Email",
-              isSenha: false,
-            ),
-            const SizedBox(height: 16), // Menos espaço entre campo de entrada e botão
-            MainButton(
-              text: "Recuperar",
-              onPressed: _sendPasswordReset,
-            ),
-            const SizedBox(height: 12), // Menos espaço entre botão e mensagem
-            if (_resetMessage != null)
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0), // Menos padding na mensagem
-                child: Text(
-                  _resetMessage!,
-                  style: const TextStyle(
-                    color: Colors.grey,
-                    fontSize: 12,
+      body: SingleChildScrollView(
+        child: Container(
+          height: MediaQuery.of(context).size.height - 280, // Define altura da tela
+          child: Center( // Centraliza verticalmente
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SvgPicture.asset(
+                    assetName,
+                    fit: BoxFit.contain,
+                    height: 250, // Ajuste a altura se necessário
+                    semanticsLabel: 'Recuperação de Senha',
                   ),
-                  textAlign: TextAlign.center,
-                ),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Digite seu email cadastrado na plataforma para a redefinição da senha',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  TextFieldSample(
+                    controller: _emailController,
+                    hintText: "Email",
+                    isSenha: false,
+                  ),
+                  const SizedBox(height: 16),
+                  MainButton(
+                    text: "Recuperar",
+                    onPressed: _sendPasswordReset,
+                  ),
+                  const SizedBox(height: 12),
+                  if (_resetMessage != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        _resetMessage!,
+                        style: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                ],
               ),
-          ],
+            ),
+          ),
         ),
       ),
     );

@@ -28,7 +28,7 @@ class GraficoInsight extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: BarChartWidget(
               barChartData: barChartData,
-              titles: lucroValues.keys.toList(),
+              titles: lucroValues.keys.toList(), legends: {'Ganhos': Colors.green[300]!, 'Perdas': Colors.pinkAccent[400]!},
             ),
           ),
         ],
