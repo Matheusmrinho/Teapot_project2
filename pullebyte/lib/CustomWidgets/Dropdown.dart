@@ -46,19 +46,26 @@ class _DropdownState extends State<Dropdown> {
                 borderRadius: BorderRadius.circular(8.0),
                 hint: Text(
                   widget.hintText!,
-                  style: TextStyle(color: customColorScheme.secondary, fontSize: 16, fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                      color: customColorScheme.secondary,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500),
                 ),
-                icon: Icon(FeatherIcons.chevronDown, color: customColorScheme.secondary),
+                icon: Icon(FeatherIcons.chevronDown,
+                    color: customColorScheme.secondary),
                 iconSize: 20,
                 elevation: 16,
-                style: TextStyle(color: customColorScheme.secondary, fontWeight: FontWeight.w600),
+                style: TextStyle(
+                    color: customColorScheme.secondary,
+                    fontWeight: FontWeight.w600),
                 onChanged: (String? newValue) {
                   setState(() {
                     dropdownValue = newValue;
                     widget.onChanged(dropdownValue!);
                   });
                 },
-                items: widget.numeroDeOpcoes.map<DropdownMenuItem<String>>((String value) {
+                items: widget.numeroDeOpcoes
+                    .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(value),

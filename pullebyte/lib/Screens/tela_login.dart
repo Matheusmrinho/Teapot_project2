@@ -43,7 +43,7 @@ class LoginScreen extends StatelessWidget {
     // Adiciona um log para verificar o tipo de erro
     print('Erro capturado: $error');
     print('Tipo de erro: ${error.runtimeType}');
-    
+
     if (error is FirebaseAuthException) {
       switch (error.code) {
         case 'user-not-found':
@@ -55,12 +55,13 @@ class LoginScreen extends StatelessWidget {
         default:
           return 'Ocorreu um erro ao efetuar o login. Por favor, verifique se o email e senha foram inseridos corretamente.';
       }
-    } else if (error is Exception && error.toString().contains('firebase_auth')) {
+    } else if (error is Exception &&
+        error.toString().contains('firebase_auth')) {
       // Extrai o código de erro da mensagem da exceção
       String errorCode = error.toString().split('[')[1].split(']')[0];
       switch (errorCode) {
         case 'firebase_auth/user-not-found':
-          return 'Usuário não encontrado.';
+          return 'Email ou Senha incorretas.';
         case 'firebase_auth/wrong-password':
           return 'Email ou Senha incorretas.';
         case 'firebase_auth/invalid-email':
@@ -125,7 +126,8 @@ class LoginScreen extends StatelessWidget {
                         isSenha: true,
                       ),
                       const SizedBox(height: 24),
-                      MainButton(text: "Login", onPressed: () => _login(context)),
+                      MainButton(
+                          text: "Login", onPressed: () => _login(context)),
                       const SizedBox(height: 20),
                       const LinkAndText(
                         text: "Ainda não possui login? ",

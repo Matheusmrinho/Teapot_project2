@@ -18,6 +18,7 @@ class InsghtsCard extends StatelessWidget {
     return Stack(
       children: [
         Container(
+          // constraints: const BoxConstraints(maxWidth: 80),
           width: 222.0,
           height: 130.0,
           decoration: BoxDecoration(
@@ -64,6 +65,7 @@ class InsghtsCard extends StatelessWidget {
                     fontSize: 35.0,
                     fontWeight: FontWeight.w900,
                     color: CustomColors.textColor,
+                    // overflow: TextOverflow.ellipsis
                   ),
                 ),
               ],

@@ -27,11 +27,20 @@ class BarChartWidget extends StatelessWidget {
                     showTitles: true,
                     getTitlesWidget: (value, titleMeta) {
                       final title = titles[value.toInt()];
-                      return Text(
-                        title,
-                        style: const TextStyle(
-                            color: Colors.white, fontSize: 12),
-                        textAlign: TextAlign.center,
+                      // Ajuste para truncar longas labels e simplificar
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 5.0),
+                        child: Text(
+                          title.length > 6
+                              ? '${title.substring(0, 6)}...'
+                              : title,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
                       );
                     },
                   ),
@@ -39,21 +48,40 @@ class BarChartWidget extends StatelessWidget {
                 leftTitles: AxisTitles(
                   sideTitles: SideTitles(
                     showTitles: true,
+                    reservedSize:
+                        40, // Mais espaçamento para as labels da esquerda
                     getTitlesWidget: (value, titleMeta) {
                       return Text(
-                        value.toStringAsFixed(0),
+                        value.toInt().toString(), // Mostrar valores inteiros
                         style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 14,
+                          fontSize: 12,
                         ),
                         textAlign: TextAlign.center,
                       );
                     },
                   ),
                 ),
+                topTitles:
+                    AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                rightTitles:
+                    AxisTitles(sideTitles: SideTitles(showTitles: false)),
               ),
-              gridData: FlGridData(show: true),
-              borderData: FlBorderData(show: false),
+              gridData: FlGridData(
+                show: true,
+                drawVerticalLine: false,
+                horizontalInterval: 10,
+                getDrawingHorizontalLine: (value) => FlLine(
+                  color: Colors.grey.withOpacity(0.5),
+                  strokeWidth: 1,
+                ),
+              ),
+              borderData: FlBorderData(
+                show: false,
+              ),
+              barTouchData: BarTouchData(enabled: false),
+              maxY:
+                  100, // Definir um valor máximo para controlar a altura das barras
             ),
           ),
         ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:pullebyte/CustomWidgets/insghts_card.dart';
+import 'package:pullebyte/controller_canhotos.dart';
 
 class InsightCardHolder extends StatelessWidget {
   final bool isLoading;
@@ -8,26 +10,68 @@ class InsightCardHolder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final canhotosList = context.watch<CanhotosController>().canhotosList;
+
+    final filteredCanhotos = canhotosList.where((canhoto) {
+      return canhoto['pulleStatus'] == 'Ganhou' ||
+          canhoto['pulleStatus'] == 'Perdeu';
+    }).toList();
+
+    final totalGanhou = filteredCanhotos
+        .where((canhoto) => canhoto['pulleStatus'] == 'Ganhou')
+        .length;
+    final totalPerdeu = filteredCanhotos
+        .where((canhoto) => canhoto['pulleStatus'] == 'Perdeu')
+        .length;
+
+    final lucroAcumulado = filteredCanhotos.fold(0.0, (soma, canhoto) {
+      return canhoto['pulleStatus'] == 'Ganhou'
+          ? soma + (canhoto['pulleValue'] as num).toDouble()
+          : soma - (canhoto['pulleValue'] as num).toDouble();
+    });
+
+    final perdasAcumuladas = filteredCanhotos.fold(0.0, (soma, canhoto) {
+      return canhoto['pulleStatus'] == 'Perdeu'
+          ? soma + (canhoto['pulleValue'] as num).toDouble()
+          : soma;
+    });
+
+    final cotacaoMedia = filteredCanhotos.isNotEmpty
+        ? filteredCanhotos.fold(
+                0.0,
+                (soma, canhoto) =>
+                    soma + (canhoto['pulleValue'] as num).toDouble()) /
+            filteredCanhotos.length
+        : 0.0;
+
+    final maiorCotacaoGanha = filteredCanhotos
+        .where((canhoto) => canhoto['pulleStatus'] == 'Ganhou')
+        .fold<double>(
+            0.0,
+            (max, canhoto) => (canhoto['pulleValue'] as num).toDouble() > max
+                ? (canhoto['pulleValue'] as num).toDouble()
+                : max);
+
     final List<Map<String, String>> insightsData = [
       {
         'titulo': 'Pulles\nbatidas',
-        'conteudo': '47/78',
+        'conteudo': '$totalGanhou/${totalPerdeu + totalGanhou}',
       },
       {
-        'titulo': 'Lucro\nacumuado',
-        'conteudo': '234.2 R\$',
+        'titulo': 'Lucro\nacumulado',
+        'conteudo': 'R\$ ${lucroAcumulado.toStringAsFixed(2)}',
       },
       {
         'titulo': 'Cotação\nmédia',
-        'conteudo': '2.14',
+        'conteudo': 'R\$ ${cotacaoMedia.toStringAsFixed(2)}',
       },
       {
         'titulo': 'Perdas\nacumuladas',
-        'conteudo': '27.5 R\$',
+        'conteudo': 'R\$ ${perdasAcumuladas.toStringAsFixed(2)}',
       },
       {
         'titulo': 'Maior cotação\nganha',
-        'conteudo': '2.47',
+        'conteudo': 'R\$ ${maiorCotacaoGanha.toStringAsFixed(2)}',
       },
     ];
 
@@ -40,7 +84,7 @@ class InsightCardHolder extends StatelessWidget {
             children: [
               const SizedBox(height: 10),
               const Text(
-                "Estatisticas dos\ncanhotos",
+                "Estatísticas dos\ncanhotos",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20,

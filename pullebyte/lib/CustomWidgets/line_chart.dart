@@ -45,8 +45,8 @@ class LineChartWidget extends StatelessWidget {
                 borderData: FlBorderData(show: true),
                 lineBarsData: [
                   _createLineBarData(ganhouData, Colors.green[300]!, 0),
-                  _createLineBarData(
-                      perdeuData, Colors.pinkAccent[400]!, ganhouData.length),
+                  _createLineBarData(perdeuData, Colors.pinkAccent[400]!,
+                      ganhouData.length, true),
                 ],
               ),
             ),
@@ -57,14 +57,19 @@ class LineChartWidget extends StatelessWidget {
   }
 
   LineChartBarData _createLineBarData(List<ChartData> data, Color color,
-      [int offset = 0]) {
+      [int offset = 0, bool isPerda = false]) {
     return LineChartBarData(
       spots: data
           .asMap()
           .entries
-          .map((e) => FlSpot((e.key + offset).toDouble(), e.value.averageValue))
+          .map((e) => FlSpot(
+                (e.key + offset).toDouble(),
+                isPerda ? -e.value.averageValue : e.value.averageValue,
+              ))
           .toList(),
       isCurved: true,
+      preventCurveOverShooting:
+          true, // Garante que a linha conecte os pontos sem saltos
       color: color,
       barWidth: 4,
       isStrokeCapRound: true,
