@@ -4,7 +4,7 @@ import 'package:pullebyte/CustomWidgets/MainButton.dart';
 import 'package:pullebyte/CustomWidgets/Textinput.dart';
 import 'package:pullebyte/CustomWidgets/logo_header.dart';
 import 'package:pullebyte/theme/colors.dart';
-import 'package:pullebyte/controller_Database.dart';
+import 'package:pullebyte/controller_database.dart';
 import 'package:pullebyte/Screens/tela_login.dart'; // Importe a tela de login
 
 class PasswordRecoveryScreen extends StatefulWidget {
