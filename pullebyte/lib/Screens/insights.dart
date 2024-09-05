@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pullebyte/CustomWidgets/custom_app_bar.dart';
 import 'package:pullebyte/CustomWidgets/insight_card_holder.dart';
-import 'package:pullebyte/CustomWidgets/grafico_insight.dart';
+import 'package:pullebyte/CustomWidgets/grafico_insight.dart'; // Novo widget
+// Certifique-se de importar o controlador
 
 class Insights extends StatefulWidget {
   const Insights({super.key});
@@ -22,7 +23,7 @@ class _InsightsState extends State<Insights>
             children: [
               CustomAppBar(),
               const InsightCardHolder(isLoading: false),
-              // const Insightgrafico(isLoading: false),
+              GraficoInsight(), // Adiciona o widget de gráficos
             ],
           ),
         ),
