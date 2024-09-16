@@ -344,7 +344,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        'Acessibilidade',
+                        'Modo Daltonismo',
                         style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
@@ -358,11 +358,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
       items: const [
         DropdownMenuItem(
           value: true,
-          child: Text('Normal'),
+          child: Text('Desabilitado'),
         ),
         DropdownMenuItem(
           value: false,
-          child: Text('Daltonismo'),
+          child: Text('Habilitado'),
         ),
       ],
       onChanged: (bool? newValue) {

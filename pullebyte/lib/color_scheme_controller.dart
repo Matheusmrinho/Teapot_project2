@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ColorSchemeController extends ChangeNotifier {
-  bool _isDisable = false;
+  bool _isDisable = true;
 
   bool get isDisable => _isDisable;
 
