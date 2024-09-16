@@ -8,7 +8,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart'; // Importar o Provider
 import 'package:pullebyte/color_scheme_controller.dart'; // Importar o controlador de esquema de cores
-
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
