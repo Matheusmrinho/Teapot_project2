@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:provider/provider.dart';
 import 'package:pullebyte/Screens/mapa.dart';
-import 'package:pullebyte/theme/colors.dart';
+import 'package:pullebyte/color_scheme_controller.dart';
 import 'dart:convert';
 
 class MatchCalendarCard extends StatelessWidget {
@@ -23,6 +24,7 @@ class MatchCalendarCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Provider.of<ColorSchemeController>(context).customColorScheme;
     Map<String, dynamic> data = jsonDecode(jsonData);
     final screenWidth = MediaQuery.of(context).size.width;
 
@@ -36,7 +38,7 @@ class MatchCalendarCard extends StatelessWidget {
       ),
       child: Container(
         decoration: BoxDecoration(
-          color: customColorScheme.secondary,
+          color: CustomColors.darkergrey,
           borderRadius: BorderRadius.circular(20),
         ),
         child: SizedBox(
@@ -111,7 +113,7 @@ class MatchCalendarCard extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
-                            color: customColorScheme.onPrimary,
+                            color: colorScheme.onPrimary,
                           ),
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -129,7 +131,7 @@ class MatchCalendarCard extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
-                            color: customColorScheme.onPrimary,
+                            color: colorScheme.onPrimary,
                           ),
                           overflow: TextOverflow.ellipsis,
                         ),

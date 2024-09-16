@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:pullebyte/theme/colors.dart';
+import 'package:provider/provider.dart';
+import 'package:pullebyte/color_scheme_controller.dart';
 
 class Dropdown extends StatefulWidget {
   final List<String> numeroDeOpcoes;
@@ -25,6 +26,7 @@ class _DropdownState extends State<Dropdown> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Provider.of<ColorSchemeController>(context).customColorScheme;
     final screenWidth = MediaQuery.of(context).size.width;
     final width = screenWidth * widget.inputWidth;
 //
@@ -33,9 +35,9 @@ class _DropdownState extends State<Dropdown> {
       height: 65,
       padding: EdgeInsets.symmetric(horizontal: 12.0),
       decoration: BoxDecoration(
-        color: customColorScheme.onPrimary,
+        color: colorScheme.onPrimary,
         borderRadius: BorderRadius.circular(8.0),
-        border: Border.all(color: customColorScheme.onPrimary),
+        border: Border.all(color: colorScheme.onPrimary),
       ),
       child: Row(
         children: [
@@ -43,21 +45,21 @@ class _DropdownState extends State<Dropdown> {
             child: DropdownButtonHideUnderline(
               child: DropdownButton<String>(
                 value: dropdownValue,
-                dropdownColor: customColorScheme.onPrimary,
+                dropdownColor: colorScheme.onPrimary,
                 borderRadius: BorderRadius.circular(8.0),
                 hint: Text(
                   widget.hintText!,
                   style: TextStyle(
-                      color: customColorScheme.secondary,
+                      color: colorScheme.secondary,
                       fontSize: 16,
                       fontWeight: FontWeight.w500),
                 ),
                 icon: Icon(FeatherIcons.chevronDown,
-                    color: customColorScheme.secondary),
+                    color: colorScheme.secondary),
                 iconSize: 20,
                 elevation: 16,
                 style: TextStyle(
-                    color: customColorScheme.secondary,
+                    color: colorScheme.secondary,
                     fontWeight: FontWeight.w600),
                 onChanged: (String? newValue) {
                   setState(() {

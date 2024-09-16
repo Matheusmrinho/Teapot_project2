@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pullebyte/CustomWidgets/filtro_time_holder.dart';
@@ -6,7 +5,6 @@ import 'package:pullebyte/CustomWidgets/custom_app_bar.dart';
 import 'package:pullebyte/CustomWidgets/filtro_time_logic.dart';
 import 'package:pullebyte/CustomWidgets/live_card_holder.dart';
 import 'package:pullebyte/CustomWidgets/match_card_holder.dart';
-import 'package:http/http.dart' as http;
 
 class Home extends StatefulWidget {
   const Home({super.key});

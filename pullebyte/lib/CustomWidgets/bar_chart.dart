@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:pullebyte/theme/colors.dart';
+import 'package:provider/provider.dart';
+import 'package:pullebyte/color_scheme_controller.dart';
 
 class BarChartWidget extends StatelessWidget {
   final List<BarChartGroupData> barChartData;
@@ -15,15 +16,16 @@ class BarChartWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Provider.of<ColorSchemeController>(context).customColorScheme;
     return Card(
-      color: customColorScheme.secondary,
+      color: colorScheme.secondary,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
       ),
       elevation: 5,
       child: Container(
         decoration: BoxDecoration(
-          color: customColorScheme.secondary,
+          color: CustomColors.darkergrey,
           borderRadius: BorderRadius.circular(15), // Adiciona o borderRadius
         ),
         child: Column(
@@ -57,7 +59,7 @@ class BarChartWidget extends StatelessWidget {
                             return Text(
                               value.toInt().toString(),
                               style: TextStyle(
-                                color: customColorScheme.onPrimary,
+                                color: colorScheme.onPrimary,
                                 fontSize: 14,
                               ),
                               textAlign: TextAlign.center,
@@ -96,7 +98,7 @@ class BarChartWidget extends StatelessWidget {
                         Text(
                           entry.key,
                           style: TextStyle(
-                            color: customColorScheme.onPrimary,
+                            color: colorScheme.onPrimary,
                             fontSize: 12,
                           ),
                         ),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:pullebyte/CustomWidgets/logo_header.dart';
-import 'package:pullebyte/theme/colors.dart';
+import 'package:pullebyte/color_scheme_controller.dart';
 import 'package:pullebyte/controller_database.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -16,6 +17,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Provider.of<ColorSchemeController>(context).customColorScheme;
     return Container(
       height: 80,
       margin: const EdgeInsets.only(top: 50, bottom: 20),
@@ -31,7 +33,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
           Container(
             decoration: BoxDecoration(
-              color: customColorScheme.primary,
+              color: colorScheme.primary,
               borderRadius: BorderRadius.circular(50),
             ),
             child: SizedBox(

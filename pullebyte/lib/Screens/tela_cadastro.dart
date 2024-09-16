@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:provider/provider.dart';
 import 'package:pullebyte/CustomWidgets/logo_header.dart';
-import 'package:pullebyte/theme/colors.dart';
+import 'package:pullebyte/color_scheme_controller.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pullebyte/CustomWidgets/Textinput.dart';
 import 'package:pullebyte/CustomWidgets/MainButton.dart';
@@ -84,9 +85,10 @@ class CadastroScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Provider.of<ColorSchemeController>(context).customColorScheme;
     const String assetName = 'lib/Assets/Icon_cadastro.svg';
     return Scaffold(
-      backgroundColor: customColorScheme.surface,
+      backgroundColor: colorScheme.surface,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         centerTitle: true,

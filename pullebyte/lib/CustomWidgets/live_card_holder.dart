@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:pullebyte/CustomWidgets/live_card.dart';
 import 'dart:convert';
+
+import 'package:pullebyte/color_scheme_controller.dart';
 
 class CardHolder extends StatelessWidget {
   final List<dynamic> matchesData;
@@ -11,6 +14,7 @@ class CardHolder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Provider.of<ColorSchemeController>(context).customColorScheme;
     return Stack(
       children: [
         Padding(
@@ -30,11 +34,11 @@ class CardHolder extends StatelessWidget {
               isLoading
                   ? const Center(child: CircularProgressIndicator())
                   : matchesData.isEmpty
-                      ? const Center(
+                      ? Center(
                           child: Text(
                             "Não há jogos ao vivo",
                             style: TextStyle(
-                              color: Color.fromARGB(255, 255, 108, 39), // Define a cor do texto como vermelho
+                              color: colorScheme.primary, // Define a cor do texto como vermelho
                               fontSize: 16, // Ajusta o tamanho da fonte se necessário
                             ),
                           ),

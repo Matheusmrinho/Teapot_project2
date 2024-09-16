@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:pullebyte/color_scheme_controller.dart';
 
 class TimeItem extends StatelessWidget {
   final Map<String, dynamic> time;
@@ -14,6 +16,7 @@ class TimeItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Provider.of<ColorSchemeController>(context).customColorScheme;
     return GestureDetector(
       onTap: onTap,
       onLongPress: onLongPress,
@@ -27,7 +30,7 @@ class TimeItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
             width: 3,
-            color: time['selecionado'] ? Colors.orange : Colors.transparent,
+            color: time['selecionado'] ? colorScheme.primary : Colors.transparent,
           ),
         ),
         child: Row(

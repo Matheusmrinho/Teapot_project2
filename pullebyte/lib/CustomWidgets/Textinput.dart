@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pullebyte/theme/colors.dart';
-import 'package:intl/intl.dart'; 
+import 'package:provider/provider.dart';
+import 'package:pullebyte/color_scheme_controller.dart';
+import 'package:intl/intl.dart';
 
 class TextFieldSample extends StatelessWidget {
   final String hintText;
@@ -28,11 +29,13 @@ class TextFieldSample extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
+    final colorScheme =
+        Provider.of<ColorSchemeController>(context).customColorScheme;
     final screenWidth = MediaQuery.of(context).size.width;
     final width = screenWidth * inputWidth!;
     return Theme(
       data: ThemeData(
-        colorScheme: customColorScheme,
+        colorScheme: colorScheme,
       ),
       child: SizedBox(
         width: width,
@@ -46,7 +49,8 @@ class TextFieldSample extends StatelessWidget {
                     lastDate: DateTime(2100),
                   ).then((selectedDate) {
                     if (selectedDate != null) {
-                      controller.text = DateFormat('dd/MM/yyyy').format(selectedDate);
+                      controller.text =
+                          DateFormat('dd/MM/yyyy').format(selectedDate);
                     }
                   });
                 },
@@ -57,16 +61,18 @@ class TextFieldSample extends StatelessWidget {
                     style: const TextStyle(color: CustomColors.accentColor),
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: CustomColors.textFieldColor,
+                      fillColor: CustomColors.textColor,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(
-                          color: CustomColors.textFieldColor,
+                        borderSide: BorderSide(
+                          color: colorScheme.onPrimary,
                         ),
                       ),
                       hintText: hintText,
-                      hintStyle: const TextStyle(color: CustomColors.accentColor),
-                      labelStyle: const TextStyle(color: CustomColors.accentColor),
+                      hintStyle:
+                          const TextStyle(color: CustomColors.accentColor),
+                      labelStyle:
+                          const TextStyle(color: CustomColors.accentColor),
                       floatingLabelBehavior: FloatingLabelBehavior.never,
                     ),
                   ),
@@ -76,26 +82,33 @@ class TextFieldSample extends StatelessWidget {
                 ? TextField(
                     controller: controller,
                     cursorRadius: const Radius.circular(8),
-                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
                     inputFormatters: [
-                      FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
+                      FilteringTextInputFormatter.allow(
+                          RegExp(r'^\d+\.?\d{0,2}')),
                     ],
                     style: const TextStyle(color: CustomColors.accentColor),
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: CustomColors.textFieldColor,
+                      fillColor: colorScheme.onPrimary,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(
-                          color: CustomColors.textFieldColor,
+                        borderSide: BorderSide(
+                          color: colorScheme.onPrimary,
                         ),
                       ),
                       hintText: isMoney == true ? '10.00' : hintText,
                       prefixText: isMoney == true ? 'R\$ ' : null,
-                      prefixStyle: isMoney == true ? const TextStyle(color: CustomColors.accentColor, fontSize: 16) : null,
-                      hintStyle: const TextStyle(color: CustomColors.accentColor),
+                      prefixStyle: isMoney == true
+                          ? const TextStyle(
+                              color: CustomColors.accentColor, fontSize: 16)
+                          : null,
+                      hintStyle:
+                          const TextStyle(color: CustomColors.accentColor),
                       labelText: isMoney == true ? hintText : null,
-                      labelStyle: const TextStyle(color: CustomColors.accentColor),
+                      labelStyle:
+                          const TextStyle(color: CustomColors.accentColor),
                       floatingLabelBehavior: FloatingLabelBehavior.never,
                     ),
                   )
@@ -107,16 +120,18 @@ class TextFieldSample extends StatelessWidget {
                         style: const TextStyle(color: CustomColors.accentColor),
                         decoration: InputDecoration(
                           filled: true,
-                          fillColor: CustomColors.textFieldColor,
+                          fillColor: colorScheme.onPrimary,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
-                            borderSide: const BorderSide(
-                              color: CustomColors.textFieldColor,
+                            borderSide: BorderSide(
+                              color: colorScheme.onPrimary,
                             ),
                           ),
                           hintText: hintText,
-                          hintStyle: const TextStyle(color: CustomColors.accentColor),
-                          labelStyle: const TextStyle(color: CustomColors.accentColor),
+                          hintStyle:
+                              const TextStyle(color: CustomColors.accentColor),
+                          labelStyle:
+                              const TextStyle(color: CustomColors.accentColor),
                           floatingLabelBehavior: FloatingLabelBehavior.never,
                         ),
                       )
@@ -128,16 +143,18 @@ class TextFieldSample extends StatelessWidget {
                         style: const TextStyle(color: CustomColors.accentColor),
                         decoration: InputDecoration(
                           filled: true,
-                          fillColor: CustomColors.textFieldColor,
+                          fillColor: colorScheme.onPrimary,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
-                            borderSide: const BorderSide(
-                              color: CustomColors.textFieldColor,
+                            borderSide: BorderSide(
+                              color: colorScheme.onPrimary,
                             ),
                           ),
                           hintText: hintText,
-                          hintStyle: const TextStyle(color: CustomColors.accentColor),
-                          labelStyle: const TextStyle(color: CustomColors.accentColor),
+                          hintStyle:
+                              const TextStyle(color: CustomColors.accentColor),
+                          labelStyle:
+                              const TextStyle(color: CustomColors.accentColor),
                           floatingLabelBehavior: FloatingLabelBehavior.never,
                         ),
                       ),

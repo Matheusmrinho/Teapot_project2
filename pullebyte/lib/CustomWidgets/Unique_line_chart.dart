@@ -1,7 +1,9 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; 
-import 'package:pullebyte/theme/colors.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:pullebyte/color_scheme_controller.dart'; 
+
 
 class UniquePoint {
   final String label;
@@ -23,13 +25,14 @@ class UniqueLineChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Provider.of<ColorSchemeController>(context).customColorScheme;
     List<FlSpot> spots = _calculateAccumulatedValues();
 
     double minY = spots.isNotEmpty ? spots.map((spot) => spot.y).reduce((a, b) => a < b ? a : b) : 0;
     double maxY = spots.isNotEmpty ? spots.map((spot) => spot.y).reduce((a, b) => a > b ? a : b) : 0;
 
     return Card(
-      color: customColorScheme.surface,
+      color: CustomColors.darkergrey,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
       ),
@@ -43,7 +46,7 @@ class UniqueLineChart extends StatelessWidget {
               style: TextStyle(
                 fontSize: 19,
                 fontWeight: FontWeight.bold,
-                color: customColorScheme.onPrimary,
+                color: colorScheme.onPrimary,
               ),
             ),
             SizedBox(height: 20),
@@ -80,7 +83,7 @@ class UniqueLineChart extends StatelessWidget {
                             child: Text(
                               _formatYAxis(value),
                               style: TextStyle(
-                                color: customColorScheme.onPrimary,
+                                color: colorScheme.onPrimary,
                                 fontSize: 14,
                               ),
                               textAlign: TextAlign.center,
@@ -104,7 +107,7 @@ class UniqueLineChart extends StatelessWidget {
                   borderData: FlBorderData(
                     show: true,
                     border: Border.all(
-                      color: customColorScheme.onSecondary.withOpacity(0.2),
+                      color: colorScheme.onSecondary.withOpacity(0.2),
                       width: 1,
                     ),
                   ),
@@ -185,9 +188,9 @@ class UniqueLineChart extends StatelessWidget {
         SizedBox(width: 8),
         Text(
           text,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 12, 
-            color: customColorScheme.onPrimary,
+            color: Color(0xfffaf5ea),
           ),
         ),
       ],

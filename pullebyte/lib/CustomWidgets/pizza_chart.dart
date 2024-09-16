@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:pullebyte/color_scheme_controller.dart';
 
 class PieChartWidget extends StatelessWidget {
   final double porcentagemVencedoras;
@@ -16,7 +17,7 @@ class PieChartWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: surfaceColor,
+      color: CustomColors.darkergrey,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
       ),
