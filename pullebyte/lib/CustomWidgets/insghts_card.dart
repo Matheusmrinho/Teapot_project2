@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pullebyte/theme/colors.dart';
+import 'package:provider/provider.dart';
+import 'package:pullebyte/color_scheme_controller.dart';
 
 class InsghtsCard extends StatelessWidget {
   final String titulo;
@@ -15,6 +16,7 @@ class InsghtsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Provider.of<ColorSchemeController>(context).customColorScheme;
     return Stack(
       children: [
         Container(
@@ -22,9 +24,9 @@ class InsghtsCard extends StatelessWidget {
           width: 222.0,
           height: 145.0,
           decoration: BoxDecoration(
-            color: CustomColors.primaryColor,
+            color: colorScheme.primary,
             borderRadius: BorderRadius.circular(12.0),
-            boxShadow: [
+            boxShadow: const [
               BoxShadow(
                 color: CustomColors.darkergrey,
                 blurRadius: 4.0,
@@ -45,11 +47,11 @@ class InsghtsCard extends StatelessWidget {
                         size: 20.0,
                         color: CustomColors.textColor,
                       ),
-                    SizedBox(width: 8.0),
+                    const SizedBox(width: 8.0),
                     Expanded(
                       child: Text(
                         titulo,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16.0,
                           fontWeight: FontWeight.bold,
                           color: CustomColors.textColor,
@@ -58,10 +60,10 @@ class InsghtsCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 8.0),
+                const SizedBox(height: 8.0),
                 Text(
                   conteudo,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 35.0,
                     fontWeight: FontWeight.w900,
                     color: CustomColors.textColor,
@@ -77,7 +79,7 @@ class InsghtsCard extends StatelessWidget {
           right: 8.0,
           child: CircleAvatar(
             radius: 8.0,
-            backgroundColor: CustomColors.primaryColor,
+            backgroundColor: colorScheme.primary,
             child: Icon(
               Icons.info,
               size: 16.0,

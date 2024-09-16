@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:pullebyte/CustomWidgets/matchs_calendar.dart';
 import 'dart:convert';
+
+import 'package:pullebyte/color_scheme_controller.dart';
 
 class CalendarGameMatch extends StatelessWidget {
   final List<dynamic> matchesData;
@@ -14,6 +17,7 @@ class CalendarGameMatch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Provider.of<ColorSchemeController>(context).customColorScheme;
     bool hasUpcomingMatches = matchesData.any(
       (match) => (match['partidas'] as List<dynamic>).any(
         (partida) => partida['Situacao'] == 'Em breve',
@@ -37,11 +41,11 @@ class CalendarGameMatch extends StatelessWidget {
           if (isLoading)
             const Center(child: CircularProgressIndicator())
           else if (!hasUpcomingMatches)
-            const Center(
+            Center(
               child: Text(
                 "Não há jogos previstos no momento",
                 style: TextStyle(
-                  color: Color.fromARGB(255, 255, 108, 39), // Define a cor do texto como vermelho
+                  color: colorScheme.primary, // Define a cor do texto como vermelho
                   fontSize: 16, // Ajusta o tamanho da fonte se necessário
                 ),
               ),

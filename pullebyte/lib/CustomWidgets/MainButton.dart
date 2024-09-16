@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pullebyte/theme/colors.dart';
+import 'package:provider/provider.dart';
+import 'package:pullebyte/color_scheme_controller.dart';
 
 class MainButton extends StatelessWidget {
   final String text;
@@ -13,6 +14,7 @@ class MainButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Provider.of<ColorSchemeController>(context).customColorScheme;
     final screenWidth = MediaQuery.of(context).size.width;
 
     // Calcula a largura desejada em porcentagem da tela (ex: 70%)
@@ -20,14 +22,14 @@ class MainButton extends StatelessWidget {
 
     return Theme(
       data: ThemeData(
-        colorScheme: customColorScheme,
+        colorScheme: colorScheme,
       ),
       child: SizedBox(
         width: width,
         height: 45,
         child: TextButton(
           style: TextButton.styleFrom(
-            backgroundColor: customColorScheme.primary,
+            backgroundColor: colorScheme.primary,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),
@@ -39,7 +41,7 @@ class MainButton extends StatelessWidget {
               Text(
                 text,
                 style: TextStyle(
-                  color: customColorScheme.onPrimary,
+                  color: colorScheme.onPrimary,
                   fontSize: 20,
                 ),
               ),

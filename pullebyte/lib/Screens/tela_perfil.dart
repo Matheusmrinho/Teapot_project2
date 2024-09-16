@@ -6,7 +6,8 @@ import 'package:pullebyte/CustomWidgets/Textinput.dart';
 import 'package:pullebyte/controller_database.dart'; // Importar o DatabaseController
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:pullebyte/theme/colors.dart';
+import 'package:provider/provider.dart'; // Importar o Provider
+import 'package:pullebyte/color_scheme_controller.dart'; // Importar o controlador de esquema de cores
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -18,9 +19,9 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-  bool _accessibilityEnabled = false;
   final DatabaseController _databaseController = DatabaseController();
-  String profilePictureUrl = 'https://i.yourimageshare.com/uuzM2gyY18.png'; // Definindo a variável profilePictureUrl
+  String profilePictureUrl =
+      'https://i.yourimageshare.com/uuzM2gyY18.png'; // Definindo a variável profilePictureUrl
 
   @override
   void initState() {
@@ -34,8 +35,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() {
       _nameController.text = userData?.displayName ?? '';
       _emailController.text = userData?.email ?? '';
-      profilePictureUrl = userData?.photoURL ?? _databaseController.defaultProfilePictureUrl;
-      // profilePictureUrl = _databaseController.defaultProfilePictureUrl;
+      profilePictureUrl =
+          userData?.photoURL ?? _databaseController.defaultProfilePictureUrl;
     });
   }
 
@@ -145,7 +146,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         });
 
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Dados salvos com sucesso!\nVerifique seu novo e-mail para confirmar a alteração.')),
+          const SnackBar(
+              content: Text(
+                  'Dados salvos com sucesso!\nVerifique seu novo e-mail para confirmar a alteração.')),
         );
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -155,7 +158,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       return;
     }
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Atualize os campos para salvar as alterações.')),
+      const SnackBar(
+          content: Text('Atualize os campos para salvar as alterações.')),
     );
   }
 
@@ -165,18 +169,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
       if (userData != null) {
         _databaseController.resetPassword();
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Verifique seu e-mail para redefinir a senha.')),
+          const SnackBar(
+              content: Text('Verifique seu e-mail para redefinir a senha.')),
         );
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Erro ao enviar e-mail de redefinição de senha: ${e.toString()}')),
+        SnackBar(
+            content: Text(
+                'Erro ao enviar e-mail de redefinição de senha: ${e.toString()}')),
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme =
+        Provider.of<ColorSchemeController>(context).customColorScheme;
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -211,7 +220,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             width: 170.0,
                             height: 170.0,
                             fit: BoxFit.cover,
-                            loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                            loadingBuilder: (BuildContext context, Widget child,
+                                ImageChunkEvent? loadingProgress) {
                               if (loadingProgress == null) {
                                 return child;
                               } else {
@@ -220,9 +230,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   height: 170.0,
                                   child: Center(
                                     child: CircularProgressIndicator(
-                                      value: loadingProgress.expectedTotalBytes != null
-                                          ? loadingProgress.cumulativeBytesLoaded / (loadingProgress.expectedTotalBytes ?? 1)
-                                          : null,
+                                      value:
+                                          loadingProgress.expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  (loadingProgress
+                                                          .expectedTotalBytes ??
+                                                      1)
+                                              : null,
                                     ),
                                   ),
                                 );
@@ -237,13 +253,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         width: 46.0,
                         height: 46.0,
                         decoration: BoxDecoration(
-                          color: customColorScheme.onPrimary,
+                          color: colorScheme.onPrimary,
                           shape: BoxShape.circle,
                         ),
                         child: Center(
                           child: IconButton(
-                            iconSize: 32.0, // Ajuste o tamanho do ícone para caber no container
-                            color: customColorScheme.secondary,
+                            iconSize:
+                                32.0, // Ajuste o tamanho do ícone para caber no container
+                            color: colorScheme.secondary,
 
                             icon: const Icon(FeatherIcons.plus),
                             onPressed: () {
@@ -261,7 +278,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Card(
                 margin: const EdgeInsets.all(10),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -296,7 +314,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Card(
                 margin: const EdgeInsets.all(10),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -312,7 +331,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         onPressed: _resetPassword,
                         text: 'Redefinir Senha',
                       ),
-                      // ),
                     ],
                   ),
                 ),
@@ -320,7 +338,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Card(
                 margin: const EdgeInsets.all(10),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -332,24 +351,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      DropdownButton<bool>(
-                        value: _accessibilityEnabled,
-                        items: const [
-                          DropdownMenuItem(
-                            value: true,
-                            child: Text('Desabilitado'),
-                          ),
-                          DropdownMenuItem(
-                            value: false,
-                            child: Text('Daltonismo'),
-                          ),
-                        ],
-                        onChanged: (bool? newValue) {
-                          setState(() {
-                            _accessibilityEnabled = newValue ?? false;
-                          });
-                        },
-                      ),
+                      Consumer<ColorSchemeController>(
+  builder: (context, colorSchemeController, child) {
+    return DropdownButton<bool>(
+      value: colorSchemeController.isDisable,
+      items: const [
+        DropdownMenuItem(
+          value: true,
+          child: Text('Normal'),
+        ),
+        DropdownMenuItem(
+          value: false,
+          child: Text('Daltonismo'),
+        ),
+      ],
+      onChanged: (bool? newValue) {
+        if (newValue != null) {
+          context.read<ColorSchemeController>().setColorScheme(newValue);
+        }
+      },
+    );
+  },
+),
                       const SizedBox(height: 20),
                       MainButton(
                         text: 'Salvar',
@@ -362,7 +385,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Card(
                 margin: const EdgeInsets.all(10),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

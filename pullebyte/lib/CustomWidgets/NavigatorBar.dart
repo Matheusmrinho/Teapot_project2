@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:provider/provider.dart';
 import 'package:pullebyte/Screens/canhotos.dart';
 import 'package:pullebyte/Screens/insights.dart';
 import 'package:pullebyte/Screens/home.dart';
+import 'package:pullebyte/color_scheme_controller.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -68,6 +70,7 @@ class CustomBottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Provider.of<ColorSchemeController>(context).customColorScheme;
     return Container(
       color: const Color(0xff0f1821),
       child: Padding(
@@ -76,7 +79,7 @@ class CustomBottomNavBar extends StatelessWidget {
           backgroundColor: const Color(0xff0f1821),
           color: Colors.white,
           activeColor: Colors.white,
-          tabBackgroundColor: const Color(0xffff6c27),
+          tabBackgroundColor: colorScheme.primary,
           gap: 10,
           padding: const EdgeInsets.all(14),
           tabs: const [

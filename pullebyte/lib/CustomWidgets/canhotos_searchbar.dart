@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pullebyte/theme/colors.dart';
+import 'package:pullebyte/color_scheme_controller.dart';
 
 //serach bar for canhotos com o hint a esquerda do widget "Buscar canhotos" e um icone de lupa a direita com o color gray
 
@@ -12,15 +12,15 @@ class CanhotosSearchBar extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 35, vertical: 8),
       padding: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
-        color: customColorScheme.secondary,
+        color: CustomColors.darkergrey,
         borderRadius: BorderRadius.circular(20),
       ),
-      child: Row(
+      child: const Row(
         children: [
-          const SizedBox(width: 10),
+          SizedBox(width: 10),
           Expanded(
             child: TextField(
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 hintText: 'Buscar canhotos',
                 hintStyle: TextStyle(
                     color: Color.fromARGB(255, 168, 165, 158),
@@ -30,7 +30,7 @@ class CanhotosSearchBar extends StatelessWidget {
               ),
             ),
           ),
-          const Icon(
+          Icon(
             Icons.search,
             color: Color.fromARGB(255, 168, 165, 158),
             //alinhado a direita da row

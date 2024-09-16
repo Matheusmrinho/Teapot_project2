@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:mapbox_gl/mapbox_gl.dart' as mapbox;
-import 'package:pullebyte/theme/colors.dart';
+import 'package:provider/provider.dart';
+import 'package:pullebyte/color_scheme_controller.dart';
+
 import '../../firebase_options.dart';
 
 class Mapa extends StatefulWidget {
@@ -48,6 +50,7 @@ class _MapaState extends State<Mapa> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Provider.of<ColorSchemeController>(context).customColorScheme;
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.stadiumName),
@@ -88,9 +91,9 @@ class _MapaState extends State<Mapa> {
                   builder: (BuildContext context,
                       ScrollController scrollController) {
                     return Container(
-                      decoration: BoxDecoration(
-                        color: customColorScheme.secondary,
-                        borderRadius: const BorderRadius.vertical(
+                      decoration: const BoxDecoration(
+                        color: CustomColors.darkergrey,
+                        borderRadius: BorderRadius.vertical(
                           top: Radius.circular(16),
                         ),
                       ),
@@ -104,7 +107,7 @@ class _MapaState extends State<Mapa> {
                               width: 50,
                               margin: const EdgeInsets.symmetric(vertical: 12),
                               decoration: BoxDecoration(
-                                color: customColorScheme.primary,
+                                color: colorScheme.primary,
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
@@ -137,7 +140,7 @@ class _MapaState extends State<Mapa> {
                                           style: TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.bold,
-                                            color: customColorScheme.onPrimary,
+                                            color: colorScheme.onPrimary,
                                           ),
                                           overflow: TextOverflow.ellipsis,
                                         ),
@@ -155,7 +158,7 @@ class _MapaState extends State<Mapa> {
                                           style: TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.bold,
-                                            color: customColorScheme.onPrimary,
+                                            color: colorScheme.onPrimary,
                                           ),
                                         ),
                                       ] else ...[
@@ -164,7 +167,7 @@ class _MapaState extends State<Mapa> {
                                           style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold,
-                                            color: customColorScheme.onPrimary,
+                                            color: colorScheme.onPrimary,
                                           ),
                                         ),
                                       ]
@@ -180,7 +183,7 @@ class _MapaState extends State<Mapa> {
                                           style: TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.bold,
-                                            color: customColorScheme.onPrimary,
+                                            color: colorScheme.onPrimary,
                                           ),
                                           overflow: TextOverflow.ellipsis,
                                         ),
@@ -221,7 +224,7 @@ class _MapaState extends State<Mapa> {
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold,
                                               color:
-                                                  customColorScheme.onPrimary,
+                                                  colorScheme.onPrimary,
                                             ),
                                             overflow: TextOverflow.ellipsis,
                                           ),
@@ -242,7 +245,7 @@ class _MapaState extends State<Mapa> {
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold,
                                               color:
-                                                  customColorScheme.onPrimary,
+                                                  colorScheme.onPrimary,
                                             ),
                                             overflow: TextOverflow.ellipsis,
                                           ),

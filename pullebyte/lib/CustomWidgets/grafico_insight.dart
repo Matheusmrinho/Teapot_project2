@@ -2,14 +2,18 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pullebyte/CustomWidgets/bar_chart.dart';
-import 'package:pullebyte/CustomWidgets/unique_line_chart.dart'; 
+import 'package:pullebyte/CustomWidgets/Unique_line_chart.dart';
+import 'package:pullebyte/color_scheme_controller.dart'; 
 import 'package:pullebyte/controller_canhotos.dart';
 import 'package:pullebyte/CustomWidgets/pizza_chart.dart';
-import 'package:pullebyte/theme/colors.dart';
+
 
 class GraficoInsight extends StatelessWidget {
+  const GraficoInsight({super.key});
+
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Provider.of<ColorSchemeController>(context).customColorScheme;
     final canhotosList = context.watch<CanhotosController>().canhotosList;
     final filteredCanhotos = _filterCanhotos(canhotosList);
     final lucroValues = _calculateLucro(filteredCanhotos);
@@ -51,7 +55,7 @@ class GraficoInsight extends StatelessWidget {
               child: PieChartWidget(
                 porcentagemVencedoras: double.parse(porcentagemVencedorasArredondada), 
                 porcentagemPerdedoras: double.parse(porcentagemPerdedorasArredondada), 
-                surfaceColor: customColorScheme.surface,
+                surfaceColor: colorScheme.surface,
               ),
             ),
           ),

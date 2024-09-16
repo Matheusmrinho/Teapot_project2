@@ -4,8 +4,8 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pullebyte/CustomWidgets/canhoto_modal.dart';
+import 'package:pullebyte/color_scheme_controller.dart';
 import 'package:pullebyte/controller_canhotos.dart';
-import 'package:pullebyte/theme/colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class CanhotosCard extends StatefulWidget {
@@ -26,6 +26,7 @@ class _CanhotosCardState extends State<CanhotosCard> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Provider.of<ColorSchemeController>(context).customColorScheme;
     initializeDateFormatting('pt_BR', null);
     final Timestamp timestamp = widget.canhoto['pulleDate'] as Timestamp;
     final DateTime dateTime = timestamp.toDate();
@@ -41,7 +42,7 @@ class _CanhotosCardState extends State<CanhotosCard> {
     return GestureDetector(
       child: Container(
         decoration: BoxDecoration(
-          color: customColorScheme.secondary,
+          color: CustomColors.darkergrey,
           borderRadius: BorderRadius.circular(20),
         ),
         child: SizedBox(
@@ -73,7 +74,8 @@ class _CanhotosCardState extends State<CanhotosCard> {
                         Container(
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            border: Border.all(color: customColorScheme.secondary, width: 5),
+                            color: Colors.grey,
+                            border: Border.all(color: Colors.grey, width: 5),
                           ),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(25),
@@ -93,7 +95,7 @@ class _CanhotosCardState extends State<CanhotosCard> {
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
-                              color: customColorScheme.onPrimary,
+                              color: colorScheme.onPrimary,
                             ),
                             overflow: TextOverflow.ellipsis,
                           ),

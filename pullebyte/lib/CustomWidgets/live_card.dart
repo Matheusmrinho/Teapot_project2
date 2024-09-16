@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:provider/provider.dart';
 import 'package:pullebyte/Screens/mapa.dart';
-import 'package:pullebyte/theme/colors.dart';
+import 'package:pullebyte/color_scheme_controller.dart';
 
 class LiveCard extends StatelessWidget {
   const LiveCard({super.key, required this.jsonData});
@@ -14,6 +15,7 @@ class LiveCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Provider.of<ColorSchemeController>(context).customColorScheme;
     Map<String, dynamic> data = jsonDecode(jsonData);
     return GestureDetector(
       onTap: () {
@@ -27,7 +29,7 @@ class LiveCard extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-          color: customColorScheme.primary,
+          color: colorScheme.primary,
           borderRadius: BorderRadius.circular(20),
         ),
         child: SizedBox(
@@ -58,7 +60,7 @@ class LiveCard extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
-                        color: customColorScheme.onPrimary,
+                        color: colorScheme.onPrimary,
                       ),
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -69,7 +71,7 @@ class LiveCard extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      color: customColorScheme.onPrimary,
+                      color: colorScheme.onPrimary,
                     ),
                   ),
                 ],
@@ -84,7 +86,7 @@ class LiveCard extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
-                      color: customColorScheme.onPrimary,
+                      color: colorScheme.onPrimary,
                     ),
                   ),
                   Text(
@@ -92,7 +94,7 @@ class LiveCard extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      color: customColorScheme.onPrimary,
+                      color: colorScheme.onPrimary,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -101,7 +103,7 @@ class LiveCard extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      color: customColorScheme.onPrimary,
+                      color: colorScheme.onPrimary,
                     ),
                   ),
                 ],
@@ -128,7 +130,7 @@ class LiveCard extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
-                        color: customColorScheme.onPrimary,
+                        color: colorScheme.onPrimary,
                       ),
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -139,7 +141,7 @@ class LiveCard extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      color: customColorScheme.onPrimary,
+                      color: colorScheme.onPrimary,
                     ),
                   )
                 ],

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 import 'package:pullebyte/CustomWidgets/MainButton.dart';
 import 'package:pullebyte/CustomWidgets/Textinput.dart';
 import 'package:pullebyte/CustomWidgets/logo_header.dart';
 import 'package:pullebyte/CustomWidgets/main_text.dart';
-import 'package:pullebyte/theme/colors.dart';
+import 'package:pullebyte/color_scheme_controller.dart';
 import 'package:pullebyte/controller_database.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -76,9 +77,10 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Provider.of<ColorSchemeController>(context).customColorScheme;
     const String assetName = 'lib/Assets/Soccer-cuate.svg';
     return Scaffold(
-      backgroundColor: customColorScheme.surface,
+      backgroundColor: colorScheme.surface,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         toolbarHeight: 110,
